@@ -60,11 +60,35 @@ def draw_board() -> None:
 def main() -> None:
     clock = pygame.time.Clock()
     run = True
+    user_input = 0
+
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                print(pos)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    user_input = 1
+                if event.key == pygame.K_2:
+                    user_input = 2
+                if event.key == pygame.K_3:
+                    user_input = 3
+                if event.key == pygame.K_4:
+                    user_input = 4
+                if event.key == pygame.K_5:
+                    user_input = 5
+                if event.key == pygame.K_6:
+                    user_input = 6
+                if event.key == pygame.K_7:
+                    user_input = 7
+                if event.key == pygame.K_8:
+                    user_input = 8
+                if event.key == pygame.K_9:
+                    user_input = 9
 
         draw_board()
 
