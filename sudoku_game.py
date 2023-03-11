@@ -6,7 +6,7 @@ WIDTH, HEIGHT = 720, 720
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_caption("Sudoku")
-img = pygame.image.load(r'sudoku/icon.png')
+img = pygame.image.load(r'icon.png')
 pygame.display.set_icon(img)
 
 WHITE = (255, 255, 255)
