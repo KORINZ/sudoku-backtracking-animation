@@ -2,7 +2,9 @@ import pygame
 import sudoku_solver
 import sudoku_validator
 
+
 WIDTH, HEIGHT = 720, 720
+CELL_SPACE = WIDTH // 9
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_caption("Sudoku")
@@ -30,18 +32,16 @@ DEFAULT_GRID = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
 
 
 def draw_board() -> None:
-    cell_space = WIDTH // 9
-    WIN.fill(WHITE)
 
     # Draw existing numbers and their boxes
     for i in range(9):
         for j in range(9):
             if DEFAULT_GRID[i][j] != '0':
                 pygame.draw.rect(
-                    WIN, GRAY, (i * cell_space, j * cell_space, cell_space, cell_space))
-                text1 = FONT.render(str(DEFAULT_GRID[i][j]), True, BLACK)
-                WIN.blit(text1, (i * cell_space + cell_space /
-                         3.3, j * cell_space + cell_space / 5))
+                    WIN, GRAY, (i * CELL_SPACE, j * CELL_SPACE, CELL_SPACE, CELL_SPACE))
+                number_text = FONT.render(str(DEFAULT_GRID[i][j]), True, BLACK)
+                WIN.blit(number_text, (i * CELL_SPACE + CELL_SPACE /
+                         3.3, j * CELL_SPACE + CELL_SPACE / 5))
 
     # Draw board lines
     for i in range(10):
@@ -49,18 +49,24 @@ def draw_board() -> None:
             thickness = 2
         else:
             thickness = 9
-        pygame.draw.line(WIN, BLACK, (0, i * cell_space),
-                         (WIDTH, i * cell_space), thickness)
-        pygame.draw.line(WIN, BLACK, (i * cell_space, 0),
-                         (i * cell_space, HEIGHT), thickness)
+        pygame.draw.line(WIN, BLACK, (0, i * CELL_SPACE),
+                         (WIDTH, i * CELL_SPACE), thickness)
+        pygame.draw.line(WIN, BLACK, (i * CELL_SPACE, 0),
+                         (i * CELL_SPACE, HEIGHT), thickness)
 
-    pygame.display.update()
+
+def put_number(x: int, y: int, user_input: int) -> None:
+    number_text = FONT.render(str(user_input), True, BLACK)
+    WIN.blit(number_text, (x * CELL_SPACE + CELL_SPACE /
+                           3.3, y * CELL_SPACE + CELL_SPACE / 5))
 
 
 def main() -> None:
     clock = pygame.time.Clock()
     run = True
     user_input = 0
+    x, y = 0, 0
+    WIN.fill(WHITE)
 
     while run:
         clock.tick(FPS)
@@ -70,6 +76,8 @@ def main() -> None:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 print(pos)
+                x = pos[0] // CELL_SPACE
+                y = pos[1] // CELL_SPACE
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     user_input = 1
@@ -89,8 +97,12 @@ def main() -> None:
                     user_input = 8
                 if event.key == pygame.K_9:
                     user_input = 9
+            if user_input != 0:
+                put_number(x, y, user_input)
+                print(x, y)
 
         draw_board()
+        pygame.display.update()
 
     pygame.quit()
 
