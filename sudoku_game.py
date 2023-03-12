@@ -1,6 +1,6 @@
 import pygame
 import sudoku_solver
-import sudoku_validator
+from sudoku_validator import sudoku_validator
 
 from copy import deepcopy
 
@@ -117,9 +117,14 @@ def main() -> None:
                 if event.key == pygame.K_9:
                     user_input = 9
         if user_input != 0:
-            put_number(x, y, user_input)
-            # is_valid_move()
+
             GRID[x][y] = str(user_input)
+            if sudoku_validator(GRID):
+                put_number(x, y, user_input)
+            else:
+                GRID[x][y] = "0"
+
+            # reset user_input to 0 after put_number() and sudoku_validator()
             user_input = 0
             print(x, y)
 
