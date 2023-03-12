@@ -11,8 +11,8 @@ CELL_SPACE = WIDTH // 9
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_caption("Sudoku")
-img = pygame.image.load(r'icon.png')
-pygame.display.set_icon(img)
+ICON = pygame.image.load(r'icon.png')
+pygame.display.set_icon(ICON)
 
 WHITE = (255, 255, 255)
 GRAY = (128, 128, 128)
@@ -85,9 +85,12 @@ def put_number(x: int, y: int, user_input: int) -> None:
 def main() -> None:
     while True:
         WIN.fill(WHITE)
+        menu_icon = pygame.transform.scale(ICON, (100, 100))
+        WIN.blit(menu_icon, (WIDTH / 2 - menu_icon.get_width() //
+                 2, 75))
         title = FONT_MENU.render("数独", True, BLACK)
         WIN.blit(title, (WIDTH / 2 - title.get_width() //
-                 2, HEIGHT / 4 - title.get_height() // 2))
+                 2, 200))
 
         message = FONT_MESSAGE.render(
             "Press Any Key to Start...", True, BLACK)
