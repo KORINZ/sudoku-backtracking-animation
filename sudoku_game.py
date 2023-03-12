@@ -2,6 +2,8 @@ import pygame
 import sudoku_solver
 import sudoku_validator
 
+from copy import deepcopy
+
 
 WIDTH, HEIGHT = 720, 720
 CELL_SPACE = WIDTH // 9
@@ -20,28 +22,35 @@ FONT = pygame.font.SysFont("Calibri", 60)
 
 FPS = 60
 
-DEFAULT_GRID = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
-                ['6', '0', '0', '1', '9', '5', '0', '0', '0'],
-                ['0', '9', '8', '0', '0', '0', '0', '6', '0'],
-                ['8', '0', '0', '0', '6', '0', '0', '0', '3'],
-                ['4', '0', '0', '8', '0', '3', '0', '0', '1'],
-                ['7', '0', '0', '0', '2', '0', '0', '0', '6'],
-                ['0', '6', '0', '0', '0', '0', '2', '8', '0'],
-                ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
-                ['0', '0', '0', '0', '8', '0', '0', '7', '9']]
+GRID = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
+        ['6', '0', '0', '1', '9', '5', '0', '0', '0'],
+        ['0', '9', '8', '0', '0', '0', '0', '6', '0'],
+        ['8', '0', '0', '0', '6', '0', '0', '0', '3'],
+        ['4', '0', '0', '8', '0', '3', '0', '0', '1'],
+        ['7', '0', '0', '0', '2', '0', '0', '0', '6'],
+        ['0', '6', '0', '0', '0', '0', '2', '8', '0'],
+        ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
+        ['0', '0', '0', '0', '8', '0', '0', '7', '9']]
+
+GRID_COPY = deepcopy(GRID)
 
 
 def draw_board() -> None:
 
     # Draw existing numbers and their boxes
+
     for i in range(9):
         for j in range(9):
-            if DEFAULT_GRID[i][j] != '0':
-                pygame.draw.rect(
-                    WIN, GRAY, (i * CELL_SPACE, j * CELL_SPACE, CELL_SPACE, CELL_SPACE))
-                number_text = FONT.render(str(DEFAULT_GRID[i][j]), True, BLACK)
+            if GRID[i][j] == GRID_COPY[i][j]:
+                cell_color = GRAY
+            else:
+                cell_color = WHITE
+            if GRID[i][j] != '0':
+                pygame.draw.rect(WIN, cell_color, (i * CELL_SPACE,
+                                                   j * CELL_SPACE, CELL_SPACE, CELL_SPACE))
+                number_text = FONT.render(str(GRID[i][j]), True, BLACK)
                 WIN.blit(number_text, (i * CELL_SPACE + CELL_SPACE /
-                         3.3, j * CELL_SPACE + CELL_SPACE / 5))
+                                       3.3, j * CELL_SPACE + CELL_SPACE / 5))
 
     # Draw board lines
     for i in range(10):
@@ -53,6 +62,14 @@ def draw_board() -> None:
                          (WIDTH, i * CELL_SPACE), thickness)
         pygame.draw.line(WIN, BLACK, (i * CELL_SPACE, 0),
                          (i * CELL_SPACE, HEIGHT), thickness)
+
+
+def highlight_selection(x: int, y: int) -> None:
+    for i in range(2):
+        pygame.draw.line(WIN, BLACK, (x * CELL_SPACE, (y + i) * CELL_SPACE),
+                         (x * CELL_SPACE + CELL_SPACE, (y + i)*CELL_SPACE), 7)
+        pygame.draw.line(WIN, BLACK, ((x + i) * CELL_SPACE, y * CELL_SPACE),
+                         ((x + i) * CELL_SPACE, y * CELL_SPACE + CELL_SPACE), 7)
 
 
 def put_number(x: int, y: int, user_input: int) -> None:
@@ -69,6 +86,7 @@ def main() -> None:
     WIN.fill(WHITE)
 
     while run:
+        WIN.fill(WHITE)
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -78,6 +96,7 @@ def main() -> None:
                 print(pos)
                 x = pos[0] // CELL_SPACE
                 y = pos[1] // CELL_SPACE
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     user_input = 1
@@ -97,11 +116,14 @@ def main() -> None:
                     user_input = 8
                 if event.key == pygame.K_9:
                     user_input = 9
-                if user_input != 0:
-                    put_number(x, y, user_input)
-                    print(x, y)
+        if user_input != 0:
+            put_number(x, y, user_input)
+            # is_valid_move()
+            GRID[x][y] = str(user_input)
+            print(x, y)
 
         draw_board()
+        highlight_selection(x, y)
         pygame.display.update()
 
     pygame.quit()
