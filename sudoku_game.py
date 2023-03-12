@@ -1,4 +1,5 @@
 import pygame
+import sys
 import sudoku_solver
 from sudoku_validator import sudoku_validator
 
@@ -18,7 +19,9 @@ GRAY = (128, 128, 128)
 BLACK = (0, 0, 0)
 
 pygame.font.init()
-FONT = pygame.font.SysFont("Calibri", 60)
+FONT_NUMBER = pygame.font.SysFont("Calibri", 60)
+FONT_MENU = pygame.font.Font('ipaexg.ttf', 70)
+FONT_BUTTON = pygame.font.Font('ipaexg.ttf', 40)
 
 FPS = 60
 
@@ -48,7 +51,7 @@ def draw_board() -> None:
             if GRID[i][j] != '0':
                 pygame.draw.rect(WIN, cell_color, (i * CELL_SPACE,
                                                    j * CELL_SPACE, CELL_SPACE, CELL_SPACE))
-                number_text = FONT.render(str(GRID[i][j]), True, BLACK)
+                number_text = FONT_NUMBER.render(str(GRID[i][j]), True, BLACK)
                 WIN.blit(number_text, (i * CELL_SPACE + CELL_SPACE /
                                        3.3, j * CELL_SPACE + CELL_SPACE / 5))
 
@@ -73,17 +76,32 @@ def highlight_selection(x: int, y: int) -> None:
 
 
 def put_number(x: int, y: int, user_input: int) -> None:
-    number_text = FONT.render(str(user_input), True, BLACK)
+    number_text = FONT_NUMBER.render(str(user_input), True, BLACK)
     WIN.blit(number_text, (x * CELL_SPACE + CELL_SPACE /
                            3.3, y * CELL_SPACE + CELL_SPACE / 5))
 
 
 def main() -> None:
+    while True:
+        WIN.fill(WHITE)
+        number_text = FONT_MENU.render("数独", True, BLACK)
+        WIN.blit(number_text, (WIDTH / 2 - number_text.get_width() //
+                 2, HEIGHT / 4 - number_text.get_height() // 2))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                game()
+                sys.exit()
+        pygame.display.update()
+
+
+def game() -> None:
     clock = pygame.time.Clock()
     run = True
     user_input = 0
     x, y = 0, 0
-    WIN.fill(WHITE)
 
     while run:
         WIN.fill(WHITE)
