@@ -120,6 +120,7 @@ def main() -> None:
             put_number(x, y, user_input)
             # is_valid_move()
             GRID[x][y] = str(user_input)
+            user_input = 0
             print(x, y)
 
         draw_board()
