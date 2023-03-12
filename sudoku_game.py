@@ -97,9 +97,17 @@ def main() -> None:
         WIN.blit(message, (WIDTH / 2 - message.get_width() //
                  2, 300))
 
-        button_start = FONT_BUTTON.render("開始", True, BLACK)
+        button_start = FONT_BUTTON.render("スタート", True, BLACK)
         WIN.blit(button_start, (WIDTH / 2 - button_start.get_width() //
                  2, 400))
+
+        button_instruction = FONT_BUTTON.render("操作", True, BLACK)
+        WIN.blit(button_instruction, (WIDTH / 2 - button_instruction.get_width() //
+                 2, 475))
+
+        button_quit = FONT_BUTTON.render("終了", True, BLACK)
+        WIN.blit(button_quit, (WIDTH / 2 - button_quit.get_width() //
+                 2, 550))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
