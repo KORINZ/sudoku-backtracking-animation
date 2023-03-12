@@ -97,9 +97,9 @@ def main() -> None:
                     user_input = 8
                 if event.key == pygame.K_9:
                     user_input = 9
-            if user_input != 0:
-                put_number(x, y, user_input)
-                print(x, y)
+                if user_input != 0:
+                    put_number(x, y, user_input)
+                    print(x, y)
 
         draw_board()
         pygame.display.update()
