@@ -22,6 +22,7 @@ pygame.font.init()
 FONT_NUMBER = pygame.font.SysFont("Calibri", 60)
 FONT_MENU = pygame.font.Font('ipaexg.ttf', 70)
 FONT_BUTTON = pygame.font.Font('ipaexg.ttf', 40)
+FONT_MESSAGE = pygame.font.Font('ipaexg.ttf', 30)
 
 FPS = 60
 
@@ -84,9 +85,19 @@ def put_number(x: int, y: int, user_input: int) -> None:
 def main() -> None:
     while True:
         WIN.fill(WHITE)
-        number_text = FONT_MENU.render("数独", True, BLACK)
-        WIN.blit(number_text, (WIDTH / 2 - number_text.get_width() //
-                 2, HEIGHT / 4 - number_text.get_height() // 2))
+        title = FONT_MENU.render("数独", True, BLACK)
+        WIN.blit(title, (WIDTH / 2 - title.get_width() //
+                 2, HEIGHT / 4 - title.get_height() // 2))
+
+        message = FONT_MESSAGE.render(
+            "Press Any Key to Start...", True, BLACK)
+        WIN.blit(message, (WIDTH / 2 - message.get_width() //
+                 2, 300))
+
+        button_start = FONT_BUTTON.render("開始", True, BLACK)
+        WIN.blit(button_start, (WIDTH / 2 - button_start.get_width() //
+                 2, 400))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
