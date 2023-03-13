@@ -27,6 +27,7 @@ FONT_MENU = pygame.font.Font('ipaexg.ttf', 70)
 FONT_BUTTON = pygame.font.Font('ipaexg.ttf', 40)
 FONT_BUTTON_SMALL = pygame.font.Font('ipaexg.ttf', 25)
 FONT_MESSAGE = pygame.font.Font('ipaexg.ttf', 30)
+FONT_MESSAGE_SMALL = pygame.font.Font('ipaexg.ttf', 20)
 
 # Game refresh rate
 FPS = 60
@@ -172,21 +173,33 @@ def instruction() -> None:
     while True:
         WIN.fill(WHITE)
 
-        message_how_to_play = FONT_MESSAGE.render(
-            "正方形の枠内にキーボードで", True, BLACK)
-        WIN.blit(message_how_to_play, (WIDTH / 2 -
-                 message_how_to_play.get_width() // 2, 120))
+        message_rule = FONT_MESSAGE.render("遊び方", True, BLACK)
+        WIN.blit(message_rule, (WIDTH / 2 - message_rule.get_width() // 2, 70))
 
-        message_how_to_play = FONT_MESSAGE.render(
-            "1〜9までの数字を入れる", True, BLACK)
-        WIN.blit(message_how_to_play, (WIDTH / 2 -
-                 message_how_to_play.get_width() // 2, 150))
+        message_how_to_play_1 = FONT_MESSAGE_SMALL.render(
+            "空いているマスに、キーボードで1〜9のいずれかの数字を入れる。", True, BLACK)
+        WIN.blit(message_how_to_play_1, (WIDTH / 2 -
+                 message_how_to_play_1.get_width() // 2, 120))
+
+        message_how_to_play_2 = FONT_MESSAGE_SMALL.render(
+            "縦・横の各列に、同じ数字が重複して入ってはいけない。", True, BLACK)
+        WIN.blit(message_how_to_play_2, (WIDTH / 2 -
+                 message_how_to_play_2.get_width() // 2, 150))
+
+        message_how_to_play_3 = FONT_MESSAGE_SMALL.render(
+            "太線で囲まれた3x3のグループ内に、同じ数字が重複して入ってはいけない。", True, BLACK)
+        WIN.blit(message_how_to_play_3, (WIDTH / 2 -
+                 message_how_to_play_3.get_width() // 2, 180))
+
+        message_keyboard = FONT_MESSAGE.render("基本操作", True, BLACK)
+        WIN.blit(message_keyboard, (WIDTH / 2 -
+                 message_keyboard.get_width() // 2, 240))
 
         message_esc = FONT_MESSAGE.render("ESC - メニューに戻る", True, BLACK)
-        WIN.blit(message_esc, (WIDTH / 2 - message_esc.get_width() // 2, 210))
+        WIN.blit(message_esc, (WIDTH / 2 - message_esc.get_width() // 2, 280))
 
         message_d = FONT_MESSAGE.render("D - 現在の数字を消す", True, BLACK)
-        WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 250))
+        WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 310))
 
         # Place go back button
         back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button('戻り', 600)
