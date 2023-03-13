@@ -108,7 +108,7 @@ def main() -> None:
         button_start = FONT_BUTTON.render("スタート", True, BLACK)
         WIN.blit(button_start, (WIDTH / 2 - button_start.get_width() //
                  2, 400))
-        start_x, start_y = 278, 401
+        start_x, start_y = (WIDTH - button_start.get_width()) // 2, 401
         pygame.draw.rect(WIN, BLACK, (start_x, start_y, button_start.get_width(
         ), button_start.get_height()), width=3)
 
@@ -116,7 +116,8 @@ def main() -> None:
         button_instruction = FONT_BUTTON.render("操作方法", True, BLACK)
         WIN.blit(button_instruction, (WIDTH / 2 - button_instruction.get_width() //
                  2, 475))
-        instruction_x, instruction_y = 278, 475
+        instruction_x, instruction_y = (
+            WIDTH - button_instruction.get_width()) // 2, 475
         pygame.draw.rect(WIN, BLACK, (instruction_x, instruction_y, button_instruction.get_width(
         ), button_instruction.get_height()), width=3)
 
@@ -124,7 +125,7 @@ def main() -> None:
         button_quit = FONT_BUTTON.render("終了", True, BLACK)
         WIN.blit(button_quit, (WIDTH / 2 - button_quit.get_width() //
                  2, 550))
-        quit_x, quit_y = 318, 550
+        quit_x, quit_y = (WIDTH - button_quit.get_width()) // 2, 550
         pygame.draw.rect(WIN, BLACK, (quit_x, quit_y, button_quit.get_width(
         ), button_quit.get_height()), width=3)
 
@@ -137,8 +138,7 @@ def main() -> None:
                 print(pos)
                 x, y = pos
             if start_x < x < 440 and start_y < y < 440:
-                game()
-                sys.exit()
+                return game()
             if instruction_x < x < 440 and instruction_y < x < 475:
                 pass
             if quit_x < x < 400 and quit_y < y < 590:
@@ -185,8 +185,7 @@ def game() -> None:
                 if event.key == pygame.K_9:
                     user_input = 9
                 if event.key == pygame.K_ESCAPE:
-                    main()
-                    sys.exit()
+                    return main()
 
         if user_input != 0 and GRID_COPY[x][y] == '0':
 
