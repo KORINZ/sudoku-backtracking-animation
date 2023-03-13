@@ -62,6 +62,9 @@ class Menu():
             button.get_width(), button_starting_y + button.get_height()
         return button_starting_x, button_starting_y, button_ending_x, button_ending_y
 
+    def make_centered_message(self) -> None:
+        pass
+
 
 def draw_board() -> None:
 
