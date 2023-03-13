@@ -134,7 +134,10 @@ def main() -> None:
         language_x, language_y = 10, 10
 
         # Place start button
-        start_x0, start_y0, start_x1, start_y1 = Menu().make_centered_button('スタート', 400)
+        if GRID == GRID_COPY:
+            start_x0, start_y0, start_x1, start_y1 = Menu().make_centered_button('スタート', 400)
+        else:
+            start_x0, start_y0, start_x1, start_y1 = Menu().make_centered_button('続く', 400)
 
         # Place instruction button
         instruction_x0, instruction_y0, instruction_x1, instruction_y1 = Menu(
