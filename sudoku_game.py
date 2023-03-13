@@ -22,6 +22,7 @@ pygame.font.init()
 FONT_NUMBER = pygame.font.SysFont("Calibri", 60)
 FONT_MENU = pygame.font.Font('ipaexg.ttf', 70)
 FONT_BUTTON = pygame.font.Font('ipaexg.ttf', 40)
+FONT_BUTTON_SMALL = pygame.font.Font('ipaexg.ttf', 25)
 FONT_MESSAGE = pygame.font.Font('ipaexg.ttf', 30)
 
 FPS = 60
@@ -97,6 +98,10 @@ def main() -> None:
         title = FONT_MENU.render("数独", True, BLACK)
         WIN.blit(title, (WIDTH / 2 - title.get_width() //
                  2, 210))
+
+        button_language = FONT_BUTTON_SMALL.render("日本語 / ENG", True, BLACK)
+        WIN.blit(button_language, (10, 10))
+        language_x, language_y = 10, 10
 
         # Place start button
         button_start = FONT_BUTTON.render("スタート", True, BLACK)
