@@ -147,11 +147,32 @@ def main() -> None:
                 x, y = pos
             if start_x0 < x < start_x1 and start_y0 < y < start_y1:
                 return game()
-            if instruction_x0 < x < instruction_x1 and instruction_y0 < x < instruction_y1:
-                pass
+            if instruction_x0 < x < instruction_x1 and instruction_y0 < y < instruction_y1:
+                return instruction()
             if quit_x0 < x < quit_x1 and quit_y0 < y < quit_y1:
                 pygame.quit()
                 sys.exit()
+        pygame.display.update()
+
+
+def instruction() -> None:
+    x, y = 0, 0
+    while True:
+        WIN.fill(WHITE)
+
+        # Place go back button
+        back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button('戻り', 600)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                print(pos)
+                x, y = pos
+            if back_x0 < x < back_y0 and back_x1 < y < back_y1:
+                return main()
         pygame.display.update()
 
 
