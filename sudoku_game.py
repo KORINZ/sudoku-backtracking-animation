@@ -194,6 +194,8 @@ def game() -> None:
                     user_input = 9
                 if event.key == pygame.K_ESCAPE:
                     return main()
+                if event.key == pygame.K_d and GRID_COPY[x][y] == '0':
+                    GRID[x][y] = '0'
 
         if user_input != 0 and GRID_COPY[x][y] == '0':
 
