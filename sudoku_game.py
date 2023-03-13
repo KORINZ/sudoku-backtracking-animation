@@ -160,6 +160,22 @@ def instruction() -> None:
     while True:
         WIN.fill(WHITE)
 
+        message_how_to_play = FONT_MESSAGE.render(
+            "正方形の枠内にキーボードで", True, BLACK)
+        WIN.blit(message_how_to_play, (WIDTH / 2 -
+                 message_how_to_play.get_width() // 2, 120))
+
+        message_how_to_play = FONT_MESSAGE.render(
+            "1〜9までの数字を入れる", True, BLACK)
+        WIN.blit(message_how_to_play, (WIDTH / 2 -
+                 message_how_to_play.get_width() // 2, 150))
+
+        message_esc = FONT_MESSAGE.render("ESC - メニューに戻る", True, BLACK)
+        WIN.blit(message_esc, (WIDTH / 2 - message_esc.get_width() // 2, 210))
+
+        message_d = FONT_MESSAGE.render("D - 現在の数字を消す", True, BLACK)
+        WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 250))
+
         # Place go back button
         back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button('戻り', 600)
 
@@ -167,6 +183,9 @@ def instruction() -> None:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return main()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 print(pos)
