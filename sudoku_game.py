@@ -216,7 +216,7 @@ def instruction() -> None:
                 pos = pygame.mouse.get_pos()
                 print(pos)
                 x, y = pos
-            if back_x0 < x < back_x1 and back_x1 < y < back_y1:
+            if back_x0 < x < back_x1 and back_y0 < y < back_y1:
                 return main()
         pygame.display.update()
 
