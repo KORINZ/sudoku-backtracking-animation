@@ -99,6 +99,7 @@ def main() -> None:
         WIN.blit(title, (WIDTH / 2 - title.get_width() //
                  2, 210))
 
+        # Place language button
         button_language = FONT_BUTTON_SMALL.render("日本語 / ENG", True, BLACK)
         WIN.blit(button_language, (10, 10))
         language_x, language_y = 10, 10
