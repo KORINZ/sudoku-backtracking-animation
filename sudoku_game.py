@@ -83,6 +83,8 @@ def put_number(x: int, y: int, user_input: int) -> None:
 
 
 def main() -> None:
+    x, y = 0, 0
+
     while True:
         WIN.fill(WHITE)
         menu_icon = pygame.transform.scale(ICON, (100, 100))
@@ -92,14 +94,12 @@ def main() -> None:
         WIN.blit(title, (WIDTH / 2 - title.get_width() //
                  2, 200))
 
-        message = FONT_MESSAGE.render(
-            "Press Any Key to Start...", True, BLACK)
-        WIN.blit(message, (WIDTH / 2 - message.get_width() //
-                 2, 300))
-
         button_start = FONT_BUTTON.render("スタート", True, BLACK)
         WIN.blit(button_start, (WIDTH / 2 - button_start.get_width() //
                  2, 400))
+        start_x, start_y = 278, 401
+        pygame.draw.rect(WIN, BLACK, (start_x, start_y, button_start.get_width(
+        ), button_start.get_height()), width=3)
 
         button_instruction = FONT_BUTTON.render("操作", True, BLACK)
         WIN.blit(button_instruction, (WIDTH / 2 - button_instruction.get_width() //
@@ -108,13 +108,23 @@ def main() -> None:
         button_quit = FONT_BUTTON.render("終了", True, BLACK)
         WIN.blit(button_quit, (WIDTH / 2 - button_quit.get_width() //
                  2, 550))
+        quit_x, quit_y = 318, 551
+        pygame.draw.rect(WIN, BLACK, (quit_x, quit_y, button_quit.get_width(
+        ), button_quit.get_height()), width=3)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                print(pos)
+                x, y = pos
+            if start_x < x < 440 and start_y < y < 440:
                 game()
+                sys.exit()
+            if quit_x < x < 590 and quit_y < y < 590:
+                pygame.quit()
                 sys.exit()
         pygame.display.update()
 
@@ -156,6 +166,9 @@ def game() -> None:
                     user_input = 8
                 if event.key == pygame.K_9:
                     user_input = 9
+                if event.key == pygame.K_ESCAPE:
+                    main()
+                    sys.exit()
 
         if user_input != 0 and GRID_COPY[x][y] == '0':
 
