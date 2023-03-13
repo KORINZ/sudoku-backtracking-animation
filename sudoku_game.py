@@ -87,13 +87,18 @@ def main() -> None:
 
     while True:
         WIN.fill(WHITE)
-        menu_icon = pygame.transform.scale(ICON, (100, 100))
+
+        # Place icon image
+        menu_icon = pygame.transform.scale(ICON, (120, 120))
         WIN.blit(menu_icon, (WIDTH / 2 - menu_icon.get_width() //
                  2, 75))
+
+        # Place game tittle
         title = FONT_MENU.render("数独", True, BLACK)
         WIN.blit(title, (WIDTH / 2 - title.get_width() //
-                 2, 200))
+                 2, 210))
 
+        # Place start button
         button_start = FONT_BUTTON.render("スタート", True, BLACK)
         WIN.blit(button_start, (WIDTH / 2 - button_start.get_width() //
                  2, 400))
@@ -101,6 +106,7 @@ def main() -> None:
         pygame.draw.rect(WIN, BLACK, (start_x, start_y, button_start.get_width(
         ), button_start.get_height()), width=3)
 
+        # Place instruction button
         button_instruction = FONT_BUTTON.render("操作方法", True, BLACK)
         WIN.blit(button_instruction, (WIDTH / 2 - button_instruction.get_width() //
                  2, 475))
@@ -108,6 +114,7 @@ def main() -> None:
         pygame.draw.rect(WIN, BLACK, (instruction_x, instruction_y, button_instruction.get_width(
         ), button_instruction.get_height()), width=3)
 
+        # Place quit button
         button_quit = FONT_BUTTON.render("終了", True, BLACK)
         WIN.blit(button_quit, (WIDTH / 2 - button_quit.get_width() //
                  2, 550))
