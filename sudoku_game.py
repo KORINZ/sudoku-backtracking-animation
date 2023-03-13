@@ -101,14 +101,17 @@ def main() -> None:
         pygame.draw.rect(WIN, BLACK, (start_x, start_y, button_start.get_width(
         ), button_start.get_height()), width=3)
 
-        button_instruction = FONT_BUTTON.render("操作", True, BLACK)
+        button_instruction = FONT_BUTTON.render("操作方法", True, BLACK)
         WIN.blit(button_instruction, (WIDTH / 2 - button_instruction.get_width() //
                  2, 475))
+        instruction_x, instruction_y = 278, 475
+        pygame.draw.rect(WIN, BLACK, (instruction_x, instruction_y, button_instruction.get_width(
+        ), button_instruction.get_height()), width=3)
 
         button_quit = FONT_BUTTON.render("終了", True, BLACK)
         WIN.blit(button_quit, (WIDTH / 2 - button_quit.get_width() //
                  2, 550))
-        quit_x, quit_y = 318, 551
+        quit_x, quit_y = 318, 550
         pygame.draw.rect(WIN, BLACK, (quit_x, quit_y, button_quit.get_width(
         ), button_quit.get_height()), width=3)
 
@@ -123,7 +126,9 @@ def main() -> None:
             if start_x < x < 440 and start_y < y < 440:
                 game()
                 sys.exit()
-            if quit_x < x < 590 and quit_y < y < 590:
+            if instruction_x < x < 440 and instruction_y < x < 475:
+                pass
+            if quit_x < x < 400 and quit_y < y < 590:
                 pygame.quit()
                 sys.exit()
         pygame.display.update()
