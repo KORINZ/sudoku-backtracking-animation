@@ -2,23 +2,25 @@ import pygame
 import sys
 import sudoku_solver
 from sudoku_validator import sudoku_validator
-
 from typing import Tuple
 from copy import deepcopy
 
-
+# Screen size and board cell size
 WIDTH, HEIGHT = 720, 720
 CELL_SPACE = WIDTH // 9
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
-pygame.display.set_caption("Sudoku")
+# Game title and icon
+pygame.display.set_caption("ナンプレ Sudoku")
 ICON = pygame.image.load(r'icon.png')
 pygame.display.set_icon(ICON)
 
+# Define RGB colors
 WHITE = (255, 255, 255)
 GRAY = (128, 128, 128)
 BLACK = (0, 0, 0)
 
+# Define fonts
 pygame.font.init()
 FONT_NUMBER = pygame.font.SysFont("Calibri", 60)
 FONT_MENU = pygame.font.Font('ipaexg.ttf', 70)
@@ -26,8 +28,10 @@ FONT_BUTTON = pygame.font.Font('ipaexg.ttf', 40)
 FONT_BUTTON_SMALL = pygame.font.Font('ipaexg.ttf', 25)
 FONT_MESSAGE = pygame.font.Font('ipaexg.ttf', 30)
 
+# Game refresh rate
 FPS = 60
 
+# Initial board layout for the game
 GRID = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
         ['6', '0', '0', '1', '9', '5', '0', '0', '0'],
         ['0', '9', '8', '0', '0', '0', '0', '6', '0'],
@@ -37,7 +41,6 @@ GRID = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
         ['0', '6', '0', '0', '0', '0', '2', '8', '0'],
         ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
         ['0', '0', '0', '0', '8', '0', '0', '7', '9']]
-
 GRID_COPY = deepcopy(GRID)
 
 
@@ -67,9 +70,7 @@ class Menu():
 
 
 def draw_board() -> None:
-
     # Draw existing numbers and their boxes
-
     for i in range(9):
         for j in range(9):
             if GRID[i][j] == GRID_COPY[i][j]:
@@ -96,6 +97,7 @@ def draw_board() -> None:
 
 
 def highlight_selection(x: int, y: int) -> None:
+    '''Highlight current selected cell'''
     for i in range(2):
         pygame.draw.line(WIN, BLACK, (x * CELL_SPACE, (y + i) * CELL_SPACE),
                          (x * CELL_SPACE + CELL_SPACE, (y + i)*CELL_SPACE), 7)
@@ -104,6 +106,7 @@ def highlight_selection(x: int, y: int) -> None:
 
 
 def put_number(x: int, y: int, user_input: int) -> None:
+    '''Place a number in a cell'''
     number_text = FONT_NUMBER.render(str(user_input), True, BLACK)
     WIN.blit(number_text, (x * CELL_SPACE + CELL_SPACE /
                            3.3, y * CELL_SPACE + CELL_SPACE / 5))
