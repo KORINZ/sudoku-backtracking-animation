@@ -3,6 +3,7 @@ import sys
 import sudoku_solver
 from sudoku_validator import sudoku_validator
 
+from typing import Tuple
 from copy import deepcopy
 
 
@@ -38,6 +39,21 @@ GRID = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
         ['0', '0', '0', '0', '8', '0', '0', '7', '9']]
 
 GRID_COPY = deepcopy(GRID)
+
+
+class Menu():
+    def __init__(self) -> None:
+        self.color = BLACK
+        self.font = FONT_BUTTON
+        self.line_width = 3
+
+    def make_button(self, name: str, y1: int) -> Tuple[int, int]:
+        button = self.font.render(name, True, self.color)
+        WIN.blit(button, (WIDTH / 2 - button.get_width() // 2, y1))
+        button_x1, button_y1 = (WIDTH - button.get_width()) // 2, y1
+        pygame.draw.rect(WIN, BLACK, (button_x1, button_y1, button.get_width(
+        ), button.get_height()), width=self.line_width)
+        return button_x1, button_y1
 
 
 def draw_board() -> None:
@@ -84,6 +100,7 @@ def put_number(x: int, y: int, user_input: int) -> None:
 
 
 def main() -> None:
+    button = Menu()
     x, y = 0, 0
 
     while True:
@@ -105,29 +122,13 @@ def main() -> None:
         language_x, language_y = 10, 10
 
         # Place start button
-        button_start = FONT_BUTTON.render("スタート", True, BLACK)
-        WIN.blit(button_start, (WIDTH / 2 - button_start.get_width() //
-                 2, 400))
-        start_x, start_y = (WIDTH - button_start.get_width()) // 2, 401
-        pygame.draw.rect(WIN, BLACK, (start_x, start_y, button_start.get_width(
-        ), button_start.get_height()), width=3)
+        start_x, start_y = button.make_button('スタート', 400)
 
         # Place instruction button
-        button_instruction = FONT_BUTTON.render("操作方法", True, BLACK)
-        WIN.blit(button_instruction, (WIDTH / 2 - button_instruction.get_width() //
-                 2, 475))
-        instruction_x, instruction_y = (
-            WIDTH - button_instruction.get_width()) // 2, 475
-        pygame.draw.rect(WIN, BLACK, (instruction_x, instruction_y, button_instruction.get_width(
-        ), button_instruction.get_height()), width=3)
+        instruction_x, instruction_y = button.make_button('操作方法', 475)
 
         # Place quit button
-        button_quit = FONT_BUTTON.render("終了", True, BLACK)
-        WIN.blit(button_quit, (WIDTH / 2 - button_quit.get_width() //
-                 2, 550))
-        quit_x, quit_y = (WIDTH - button_quit.get_width()) // 2, 550
-        pygame.draw.rect(WIN, BLACK, (quit_x, quit_y, button_quit.get_width(
-        ), button_quit.get_height()), width=3)
+        quit_x, quit_y = button.make_button('終了', 550)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
