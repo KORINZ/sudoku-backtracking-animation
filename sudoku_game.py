@@ -47,13 +47,17 @@ class Menu():
         self.font = FONT_BUTTON
         self.line_width = 3
 
-    def make_button(self, name: str, y1: int) -> Tuple[int, int]:
+    def make_centered_button(self, name: str, starting_y: int) -> Tuple[int, int, int, int]:
         button = self.font.render(name, True, self.color)
-        WIN.blit(button, (WIDTH / 2 - button.get_width() // 2, y1))
-        button_x1, button_y1 = (WIDTH - button.get_width()) // 2, y1
-        pygame.draw.rect(WIN, BLACK, (button_x1, button_y1, button.get_width(
+        WIN.blit(button, (WIDTH / 2 - button.get_width() // 2, starting_y))
+        button_starting_x, button_starting_y = (
+            WIDTH - button.get_width()) // 2, starting_y
+        pygame.draw.rect(WIN, BLACK, (button_starting_x, button_starting_y, button.get_width(
         ), button.get_height()), width=self.line_width)
-        return button_x1, button_y1
+
+        button_ending_x, button_ending_y = button_starting_x + \
+            button.get_width(), button_starting_y + button.get_height()
+        return button_starting_x, button_starting_y, button_ending_x, button_ending_y
 
 
 def draw_board() -> None:
@@ -100,7 +104,6 @@ def put_number(x: int, y: int, user_input: int) -> None:
 
 
 def main() -> None:
-    button = Menu()
     x, y = 0, 0
 
     while True:
@@ -122,13 +125,14 @@ def main() -> None:
         language_x, language_y = 10, 10
 
         # Place start button
-        start_x, start_y = button.make_button('スタート', 400)
+        start_x0, start_y0, start_x1, start_y1 = Menu().make_centered_button('スタート', 400)
 
         # Place instruction button
-        instruction_x, instruction_y = button.make_button('操作方法', 475)
+        instruction_x0, instruction_y0, instruction_x1, instruction_y1 = Menu(
+        ).make_centered_button('操作方法', 475)
 
         # Place quit button
-        quit_x, quit_y = button.make_button('終了', 550)
+        quit_x0, quit_y0, quit_x1, quit_y1 = Menu().make_centered_button('終了', 550)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -138,11 +142,11 @@ def main() -> None:
                 pos = pygame.mouse.get_pos()
                 print(pos)
                 x, y = pos
-            if start_x < x < 440 and start_y < y < 440:
+            if start_x0 < x < start_x1 and start_y0 < y < start_y1:
                 return game()
-            if instruction_x < x < 440 and instruction_y < x < 475:
+            if instruction_x0 < x < instruction_x1 and instruction_y0 < x < instruction_y1:
                 pass
-            if quit_x < x < 400 and quit_y < y < 590:
+            if quit_x0 < x < quit_x1 and quit_y0 < y < quit_y1:
                 pygame.quit()
                 sys.exit()
         pygame.display.update()
