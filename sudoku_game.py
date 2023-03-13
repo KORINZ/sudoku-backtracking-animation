@@ -137,8 +137,11 @@ def main() -> None:
         instruction_x0, instruction_y0, instruction_x1, instruction_y1 = Menu(
         ).make_centered_button('操作方法', 475)
 
+        # Place setting button
+        setting_x0, setting_y0, setting_x1, setting_y1 = Menu().make_centered_button('設定', 550)
+
         # Place quit button
-        quit_x0, quit_y0, quit_x1, quit_y1 = Menu().make_centered_button('終了', 550)
+        quit_x0, quit_y0, quit_x1, quit_y1 = Menu().make_centered_button('終了', 625)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
