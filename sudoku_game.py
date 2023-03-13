@@ -193,13 +193,14 @@ def instruction() -> None:
 
         message_keyboard = FONT_MESSAGE.render("基本操作", True, BLACK)
         WIN.blit(message_keyboard, (WIDTH / 2 -
-                 message_keyboard.get_width() // 2, 240))
+                 message_keyboard.get_width() // 2, 250))
 
-        message_esc = FONT_MESSAGE.render("ESC - メニューに戻る", True, BLACK)
-        WIN.blit(message_esc, (WIDTH / 2 - message_esc.get_width() // 2, 280))
+        message_esc = FONT_MESSAGE.render(
+            "ESC - メニューに戻る（進行状況は保存される）", True, BLACK)
+        WIN.blit(message_esc, (WIDTH / 2 - message_esc.get_width() // 2, 300))
 
         message_d = FONT_MESSAGE.render("D - 現在の数字を消す", True, BLACK)
-        WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 310))
+        WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 350))
 
         # Place go back button
         back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button('戻り', 600)
