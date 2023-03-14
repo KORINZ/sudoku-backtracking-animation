@@ -2,35 +2,39 @@ from collections import defaultdict
 from typing import List
 
 
-def sudoku_validator(board: List[List[str]]) -> bool:
-    '''Validate a sudoku board.'''
-    rows = defaultdict(set)
-    cols = defaultdict(set)
-    squares = defaultdict(set)
+class Validator:
+    def __init__(self) -> None:
+        self.string_number = [str(n) for n in range(1, 10)]
+        self.rows = defaultdict(set)
+        self.cols = defaultdict(set)
+        self.boxes = defaultdict(set)
 
-    for r in range(9):
-        for c in range(9):
-            val = board[r][c]
+    def sudoku_validator(self, board: List[List[str]]) -> bool:
+        '''Validate a sudoku board.'''
 
-            if val == "0":
-                continue
+        for r in range(9):
+            for c in range(9):
+                val = board[r][c]
 
-            # Check row
-            if val in rows[r]:
-                return False
-            rows[r].add(val)
+                if val == "0":
+                    continue
 
-            # Check Column
-            if val in cols[c]:
-                return False
-            cols[c].add(val)
+                # Check row
+                if val in self.rows[r]:
+                    return False
+                self.rows[r].add(val)
 
-            # Check box
-            if val in squares[(r // 3, c // 3)]:
-                return False
-            squares[(r // 3, c // 3)].add(val)
+                # Check Column
+                if val in self.cols[c]:
+                    return False
+                self.cols[c].add(val)
 
-    return True
+                # Check box
+                if val in self.boxes[(r // 3, c // 3)]:
+                    return False
+                self.boxes[(r // 3, c // 3)].add(val)
+
+        return True
 
 
 if __name__ == '__main__':
@@ -46,4 +50,4 @@ if __name__ == '__main__':
                    ['0', '0', '0', '0', '0', '0', '0', '0', '2'],
                    ['0', '0', '0', '0', '0', '0', '0', '0', '1']]
 
-    print(sudoku_validator(INPUT_BOARD))  # Incorrect output
+    print(Validator().sudoku_validator(INPUT_BOARD))  # Incorrect output

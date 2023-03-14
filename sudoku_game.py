@@ -2,7 +2,7 @@ import pygame
 import sys
 import numpy as np
 from sudoku_solver import Solver
-from sudoku_validator import sudoku_validator
+from sudoku_validator import Validator
 from typing import Tuple
 from copy import deepcopy
 
@@ -290,7 +290,7 @@ def game() -> None:
             GRID[x][y] = str(user_input)
 
             # validate the Sudoku board
-            if not sudoku_validator(list(GRID)):
+            if not Validator().sudoku_validator(list(GRID)):
                 GRID[x][y] = "0"
             else:
                 put_number(x, y, user_input)
