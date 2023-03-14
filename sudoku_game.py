@@ -120,9 +120,8 @@ def put_number(x: int, y: int, user_input: int) -> None:
                            3.3, y * CELL_SPACE + CELL_SPACE / 5))
 
 
-def main() -> None:
+def main(language='日本語') -> None:
     x, y = 0, 0
-    language = '日本語'
 
     while True:
         WIN.fill(WHITE)
@@ -237,7 +236,7 @@ def instruction(language: str) -> None:
                 print(pos)
                 x, y = pos
             if back_x0 < x < back_x1 and back_y0 < y < back_y1:
-                return main()
+                return main(language='ENG') if back_lang == 'Back' else main()
         pygame.display.update()
 
 
