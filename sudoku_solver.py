@@ -30,10 +30,11 @@ class Solver:
         # Place existing numbers to the gird
         for row in range(9):
             for col in range(9):
-                if self.board[row][col] != "0":
-                    self.rows[row].add(self.board[row][col])
-                    self.cols[col].add(self.board[row][col])
-                    self.boxes[(row // 3, col // 3)].add(self.board[row][col])
+                val = self.board[row][col]
+                if val != "0":
+                    self.rows[row].add(val)
+                    self.cols[col].add(val)
+                    self.boxes[(row // 3, col // 3)].add(val)
 
         self.backtrack(0, 0)
         # Return the original input board if the sudoku board is not valid
@@ -65,11 +66,10 @@ class Solver:
     def move_to_next_cell(self, r: int, c: int) -> Tuple[int, int]:
         # Move to next column
         if c < 8:
-            new_r, new_c = r, c + 1
+            return r,  c + 1
         # Move to next row, reset column index
         else:
-            new_r, new_c = r + 1, 0
-        return new_r, new_c
+            return r + 1, 0
 
     def backtrack(self, r: int, c: int) -> bool:
         # Base case: reached last row + 1
