@@ -226,7 +226,7 @@ def instruction(language: str) -> None:
         WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
 
         # Place go back button
-        back_lang = Menu().change_language(language, '戻り', 'Back')
+        back_lang = Menu().change_language(language, '戻る', 'Back')
         back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button(back_lang, 600)
 
         for event in pygame.event.get():
