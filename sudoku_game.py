@@ -1,6 +1,6 @@
 import pygame
 import sys
-import sudoku_solver
+from sudoku_solver import Solver
 from sudoku_validator import sudoku_validator
 from typing import Tuple
 from copy import deepcopy
@@ -282,16 +282,19 @@ def game() -> None:
                 if event.key == pygame.K_d and GRID_COPY[x][y] == '0':
                     GRID[x][y] = '0'
 
+        # Check if current cell is occupied
         if user_input != 0 and GRID_COPY[x][y] == '0':
 
+            # Put number in current cell
             GRID[x][y] = str(user_input)
 
-            if sudoku_validator(GRID):
-                put_number(x, y, user_input)
-            else:
+            # validate the Sudoku board
+            if not sudoku_validator(GRID):
                 GRID[x][y] = "0"
+            else:
+                put_number(x, y, user_input)
 
-            # reset user_input to 0 after put_number() and sudoku_validator()
+            # Reset user_input to 0 after put_number() and sudoku_validator()
             user_input = 0
             print(x, y)
 

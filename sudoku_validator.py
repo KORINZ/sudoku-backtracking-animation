@@ -3,6 +3,7 @@ from typing import List
 
 
 def sudoku_validator(board: List[List[str]]) -> bool:
+    '''Validate a sudoku board.'''
     rows = defaultdict(set)
     cols = defaultdict(set)
     squares = defaultdict(set)
