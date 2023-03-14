@@ -28,13 +28,13 @@ class Solver:
         self.board = deepcopy(input_board)
 
         # Place existing numbers to the gird
-        for row in range(9):
-            for col in range(9):
-                val = self.board[row][col]
+        for r in range(9):
+            for c in range(9):
+                val = self.board[r][c]
                 if val != "0":
-                    self.rows[row].add(val)
-                    self.cols[col].add(val)
-                    self.boxes[(row // 3, col // 3)].add(val)
+                    self.rows[r].add(val)
+                    self.cols[c].add(val)
+                    self.boxes[(r // 3, c // 3)].add(val)
 
         self.backtrack(0, 0)
         # Return the original input board if the sudoku board is not valid
