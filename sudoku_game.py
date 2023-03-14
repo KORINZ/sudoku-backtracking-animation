@@ -1,5 +1,6 @@
 import pygame
 import sys
+import numpy as np
 from sudoku_solver import Solver
 from sudoku_validator import sudoku_validator
 from typing import Tuple
@@ -33,15 +34,15 @@ FONT_MESSAGE_SMALL = pygame.font.Font('ipaexg.ttf', 20)
 FPS = 60
 
 # Initial board layout for the game
-GRID = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
-        ['6', '0', '0', '1', '9', '5', '0', '0', '0'],
-        ['0', '9', '8', '0', '0', '0', '0', '6', '0'],
-        ['8', '0', '0', '0', '6', '0', '0', '0', '3'],
-        ['4', '0', '0', '8', '0', '3', '0', '0', '1'],
-        ['7', '0', '0', '0', '2', '0', '0', '0', '6'],
-        ['0', '6', '0', '0', '0', '0', '2', '8', '0'],
-        ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
-        ['0', '0', '0', '0', '8', '0', '0', '7', '9']]
+GRID = np.array([['5', '3', '0', '0', '7', '0', '0', '0', '0'],
+                 ['6', '0', '0', '1', '9', '5', '0', '0', '0'],
+                 ['0', '9', '8', '0', '0', '0', '0', '6', '0'],
+                 ['8', '0', '0', '0', '6', '0', '0', '0', '3'],
+                 ['4', '0', '0', '8', '0', '3', '0', '0', '1'],
+                 ['7', '0', '0', '0', '2', '0', '0', '0', '6'],
+                 ['0', '6', '0', '0', '0', '0', '2', '8', '0'],
+                 ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
+                 ['0', '0', '0', '0', '8', '0', '0', '7', '9']]).transpose()
 GRID_COPY = deepcopy(GRID)
 
 
@@ -143,7 +144,7 @@ def main(language='日本語') -> None:
         language_x, language_y = 10, 10
 
         # Place start button
-        if GRID == GRID_COPY:
+        if (GRID == GRID_COPY).all():
             start_lang = Menu().change_language(language, 'スタート', 'Start')
             start_x0, start_y0, start_x1, start_y1 = Menu().make_centered_button(start_lang, 400)
         else:
@@ -255,8 +256,7 @@ def game() -> None:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 pos = pygame.mouse.get_pos()
                 print(pos)
-                x = pos[0] // CELL_SPACE
-                y = pos[1] // CELL_SPACE
+                x, y = pos[0] // CELL_SPACE, pos[1] // CELL_SPACE
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
@@ -289,7 +289,7 @@ def game() -> None:
             GRID[x][y] = str(user_input)
 
             # validate the Sudoku board
-            if not sudoku_validator(GRID):
+            if not sudoku_validator(list(GRID)):
                 GRID[x][y] = "0"
             else:
                 put_number(x, y, user_input)
