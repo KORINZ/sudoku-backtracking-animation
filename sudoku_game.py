@@ -50,6 +50,7 @@ class Menu():
         self.color = BLACK
         self.font = FONT_BUTTON
         self.line_width = 3
+        self.language = '日本語'
 
     def make_centered_button(self, name: str, starting_y: int) -> Tuple[int, int, int, int]:
         button = self.font.render(name, True, self.color)
@@ -65,6 +66,12 @@ class Menu():
         button_ending_x, button_ending_y = button_starting_x + \
             button.get_width(), button_starting_y + button.get_height()
         return button_starting_x, button_starting_y, button_ending_x, button_ending_y
+
+    def change_language(self, lang: str, word_ja: str, word_en: str) -> str:
+        if lang == self.language:
+            return word_ja
+        else:
+            return word_en
 
     def make_centered_message(self) -> None:
         pass
@@ -115,6 +122,7 @@ def put_number(x: int, y: int, user_input: int) -> None:
 
 def main() -> None:
     x, y = 0, 0
+    language = '日本語'
 
     while True:
         WIN.fill(WHITE)
@@ -125,30 +133,37 @@ def main() -> None:
                  2, 75))
 
         # Place game tittle
-        title = FONT_MENU.render("数独", True, BLACK)
+        title_lang = Menu().change_language(language, '数独', 'Sudoku')
+        title = FONT_MENU.render(title_lang, True, BLACK)
         WIN.blit(title, (WIDTH / 2 - title.get_width() //
                  2, 210))
 
         # Place language button
-        button_language = FONT_BUTTON_SMALL.render("日本語 / ENG", True, BLACK)
+        button_language = FONT_BUTTON_SMALL.render('日本語 / ENG', True, BLACK)
         WIN.blit(button_language, (10, 10))
         language_x, language_y = 10, 10
 
         # Place start button
         if GRID == GRID_COPY:
-            start_x0, start_y0, start_x1, start_y1 = Menu().make_centered_button('スタート', 400)
+            start_lang = Menu().change_language(language, 'スタート', 'Start')
+            start_x0, start_y0, start_x1, start_y1 = Menu().make_centered_button(start_lang, 400)
         else:
-            start_x0, start_y0, start_x1, start_y1 = Menu().make_centered_button('続く', 400)
+            start_lang = Menu().change_language(language, '続く', 'Continue')
+            start_x0, start_y0, start_x1, start_y1 = Menu().make_centered_button(start_lang, 400)
 
         # Place instruction button
+        instruction_lang = Menu().change_language(language, '操作方法', 'How to Play')
         instruction_x0, instruction_y0, instruction_x1, instruction_y1 = Menu(
-        ).make_centered_button('操作方法', 475)
+        ).make_centered_button(instruction_lang, 475)
 
         # Place setting button
-        setting_x0, setting_y0, setting_x1, setting_y1 = Menu().make_centered_button('設定', 550)
+        setting_lang = Menu().change_language(language, '設定', 'Setting')
+        setting_x0, setting_y0, setting_x1, setting_y1 = Menu(
+        ).make_centered_button(setting_lang, 550)
 
         # Place quit button
-        quit_x0, quit_y0, quit_x1, quit_y1 = Menu().make_centered_button('終了', 625)
+        quit_lang = Menu().change_language(language, '終了', 'Quit')
+        quit_x0, quit_y0, quit_x1, quit_y1 = Menu().make_centered_button(quit_lang, 625)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -165,6 +180,10 @@ def main() -> None:
             if quit_x0 < x < quit_x1 and quit_y0 < y < quit_y1:
                 pygame.quit()
                 sys.exit()
+            if 10 < x < 90 and 10 < y < 40:
+                language = '日本語'
+            if 110 < x < 170 and 10 < y < 40:
+                language = 'ENG'
         pygame.display.update()
 
 
