@@ -19,6 +19,7 @@ pygame.display.set_icon(ICON)
 # Define RGB colors
 WHITE = (255, 255, 255)
 GRAY = (128, 128, 128)
+RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
 # Define fonts
