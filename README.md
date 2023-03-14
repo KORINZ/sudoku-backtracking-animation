@@ -5,10 +5,10 @@ Working in progress...
 
 ## Start Menu
 <p align="center">
-  <img width="534" alt="1" src="https://user-images.githubusercontent.com/111611023/224588422-2f37ab52-6cf7-4cb0-bddf-6ed3c836fecd.png">
+  <img width="537" alt="1" src="https://user-images.githubusercontent.com/111611023/224937024-e476e51c-20a9-47d0-857c-e9361786fc19.png">
 </p>
 
 ## Game Interface
 <p align="center">
-  <img width="536" alt="2" src="https://user-images.githubusercontent.com/111611023/224588425-d86403e1-b543-4244-acb1-bb3afacc2c24.png">
+  <img width="539" alt="2" src="https://user-images.githubusercontent.com/111611023/224937080-077da3c6-1bfe-4bec-b152-0b7731901e71.png">
 </p>
