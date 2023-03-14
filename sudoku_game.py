@@ -232,7 +232,7 @@ def instruction(language: str) -> None:
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    return main()
+                    return main(language='ENG') if back_lang == 'Back' else main()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 pos = pygame.mouse.get_pos()
                 print(pos)
