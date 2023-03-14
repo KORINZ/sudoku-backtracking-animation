@@ -3,19 +3,31 @@ from typing import List
 
 
 def sudoku_validator(board: List[List[str]]) -> bool:
-    cols = defaultdict(set)
     rows = defaultdict(set)
+    cols = defaultdict(set)
     squares = defaultdict(set)
 
     for r in range(9):
         for c in range(9):
-            if board[r][c] == "0":
+            val = board[r][c]
+
+            if val == "0":
                 continue
-            if board[r][c] in rows[r] or board[r][c] in cols[c] or board[r][c] in squares[(r // 3, c // 3)]:
+
+            # Check row
+            if val in rows[r]:
                 return False
-            rows[r].add(board[r][c])
-            cols[c].add(board[r][c])
-            squares[(r // 3, c // 3)].add(board[r][c])
+            rows[r].add(val)
+
+            # Check Column
+            if val in cols[c]:
+                return False
+            cols[c].add(val)
+
+            # Check box
+            if val in squares[(r // 3, c // 3)]:
+                return False
+            squares[(r // 3, c // 3)].add(val)
 
     return True
 
