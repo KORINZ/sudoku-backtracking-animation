@@ -176,7 +176,7 @@ def main() -> None:
             if start_x0 < x < start_x1 and start_y0 < y < start_y1:
                 return game()
             if instruction_x0 < x < instruction_x1 and instruction_y0 < y < instruction_y1:
-                return instruction()
+                return instruction(language)
             if quit_x0 < x < quit_x1 and quit_y0 < y < quit_y1:
                 pygame.quit()
                 sys.exit()
@@ -187,7 +187,7 @@ def main() -> None:
         pygame.display.update()
 
 
-def instruction() -> None:
+def instruction(language: str) -> None:
     x, y = 0, 0
     while True:
         WIN.fill(WHITE)
@@ -222,7 +222,8 @@ def instruction() -> None:
         WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 350))
 
         # Place go back button
-        back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button('戻り', 600)
+        back_lang = Menu().change_language(language, '戻り', 'Back')
+        back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button(back_lang, 600)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
