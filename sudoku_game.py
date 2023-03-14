@@ -225,6 +225,12 @@ def instruction(language: str) -> None:
         message_sr = FONT_MESSAGE.render("SHIFT + R - ", True, BLACK)
         WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
 
+        message_sb = FONT_MESSAGE.render("SHIFT + B - ", True, BLACK)
+        WIN.blit(message_sb, (WIDTH / 2 - message_sb.get_width() // 2, 450))
+
+        message_ss = FONT_MESSAGE.render("SHIFT + S - ", True, BLACK)
+        WIN.blit(message_ss, (WIDTH / 2 - message_ss.get_width() // 2, 500))
+
         # Place go back button
         back_lang = Menu().change_language(language, '戻る', 'Back')
         back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button(back_lang, 600)
