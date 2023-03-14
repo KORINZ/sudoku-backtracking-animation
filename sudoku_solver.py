@@ -43,6 +43,7 @@ class Solver:
             return input_board
 
         # Check if a number can be placed according to the constraints
+
     def can_place_number(self, r: int, c: int, num: str) -> bool:
         if (num in self.rows[r]) or (num in self.cols[c]) or (num in self.boxes[(r // 3, c // 3)]):
             return False

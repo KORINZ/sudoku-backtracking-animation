@@ -59,14 +59,12 @@ class Menu():
         WIN.blit(button, (WIDTH / 2 - button.get_width() // 2, starting_y))
 
         # Starting x and y points of the button
-        button_starting_x, button_starting_y = (
-            WIDTH - button.get_width()) // 2, starting_y
+        button_starting_x, button_starting_y = (WIDTH - button.get_width()) // 2, starting_y
         pygame.draw.rect(WIN, BLACK, (button_starting_x, button_starting_y, button.get_width(
         ), button.get_height()), width=self.line_width)
 
         # Ending x and y points of the button
-        button_ending_x, button_ending_y = button_starting_x + \
-            button.get_width(), button_starting_y + button.get_height()
+        button_ending_x, button_ending_y = button_starting_x + button.get_width(), button_starting_y + button.get_height()
         return button_starting_x, button_starting_y, button_ending_x, button_ending_y
 
     def change_language(self, lang: str, word_ja: str, word_en: str) -> str:
@@ -110,7 +108,7 @@ def highlight_selection(x: int, y: int) -> None:
     '''Highlight current selected cell'''
     for i in range(2):
         pygame.draw.line(WIN, BLACK, (x * CELL_SPACE, (y + i) * CELL_SPACE),
-                         (x * CELL_SPACE + CELL_SPACE, (y + i)*CELL_SPACE), 7)
+                         (x * CELL_SPACE + CELL_SPACE, (y + i) * CELL_SPACE), 7)
         pygame.draw.line(WIN, BLACK, ((x + i) * CELL_SPACE, y * CELL_SPACE),
                          ((x + i) * CELL_SPACE, y * CELL_SPACE + CELL_SPACE), 7)
 
@@ -131,13 +129,13 @@ def main(language='日本語') -> None:
         # Place icon image
         menu_icon = pygame.transform.scale(ICON, (120, 120))
         WIN.blit(menu_icon, (WIDTH / 2 - menu_icon.get_width() //
-                 2, 75))
+                             2, 75))
 
         # Place game tittle
         title_lang = Menu().change_language(language, '数独', 'Sudoku')
         title = FONT_MENU.render(title_lang, True, BLACK)
         WIN.blit(title, (WIDTH / 2 - title.get_width() //
-                 2, 210))
+                         2, 210))
 
         # Place language button
         button_language = FONT_BUTTON_SMALL.render('日本語 / ENG', True, BLACK)
@@ -199,21 +197,21 @@ def instruction(language: str) -> None:
         message_how_to_play_1 = FONT_MESSAGE_SMALL.render(
             "空いているマスに、キーボードで1〜9のいずれかの数字を入れる。", True, BLACK)
         WIN.blit(message_how_to_play_1, (WIDTH / 2 -
-                 message_how_to_play_1.get_width() // 2, 120))
+                                         message_how_to_play_1.get_width() // 2, 120))
 
         message_how_to_play_2 = FONT_MESSAGE_SMALL.render(
             "縦・横の各列に、同じ数字が重複して入ってはいけない。", True, BLACK)
         WIN.blit(message_how_to_play_2, (WIDTH / 2 -
-                 message_how_to_play_2.get_width() // 2, 150))
+                                         message_how_to_play_2.get_width() // 2, 150))
 
         message_how_to_play_3 = FONT_MESSAGE_SMALL.render(
             "太線で囲まれた3x3のグループ内に、同じ数字が重複して入ってはいけない。", True, BLACK)
         WIN.blit(message_how_to_play_3, (WIDTH / 2 -
-                 message_how_to_play_3.get_width() // 2, 180))
+                                         message_how_to_play_3.get_width() // 2, 180))
 
         message_keyboard = FONT_MESSAGE.render("基本操作", True, BLACK)
         WIN.blit(message_keyboard, (WIDTH / 2 -
-                 message_keyboard.get_width() // 2, 250))
+                                    message_keyboard.get_width() // 2, 250))
 
         message_esc = FONT_MESSAGE.render(
             "ESC - メニューに戻る（進行状況は保存される）", True, BLACK)
