@@ -59,12 +59,14 @@ class Menu():
         WIN.blit(button, (WIDTH / 2 - button.get_width() // 2, starting_y))
 
         # Starting x and y points of the button
-        button_starting_x, button_starting_y = (WIDTH - button.get_width()) // 2, starting_y
+        button_starting_x, button_starting_y = (
+            WIDTH - button.get_width()) // 2, starting_y
         pygame.draw.rect(WIN, BLACK, (button_starting_x, button_starting_y, button.get_width(
         ), button.get_height()), width=self.line_width)
 
         # Ending x and y points of the button
-        button_ending_x, button_ending_y = button_starting_x + button.get_width(), button_starting_y + button.get_height()
+        button_ending_x, button_ending_y = button_starting_x + \
+            button.get_width(), button_starting_y + button.get_height()
         return button_starting_x, button_starting_y, button_ending_x, button_ending_y
 
     def change_language(self, lang: str, word_ja: str, word_en: str) -> str:
@@ -219,6 +221,9 @@ def instruction(language: str) -> None:
 
         message_d = FONT_MESSAGE.render("D - 現在の数字を消す", True, BLACK)
         WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 350))
+
+        message_sr = FONT_MESSAGE.render("SHIFT + R - ", True, BLACK)
+        WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
 
         # Place go back button
         back_lang = Menu().change_language(language, '戻り', 'Back')
