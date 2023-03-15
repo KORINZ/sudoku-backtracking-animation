@@ -1,9 +1,10 @@
 import pygame
 import sys
 import numpy as np
+import numpy.typing as npt
 from sudoku_solver import Solver
 from sudoku_validator import Validator
-from typing import Tuple
+from typing import Tuple, List
 from copy import deepcopy
 
 # Screen size and board cell size
@@ -33,6 +34,7 @@ FONT_MESSAGE_SMALL = pygame.font.Font('ipaexg.ttf', 20)
 
 # Game refresh rate
 FPS = 60
+DELAY_TIME = 1
 
 # Initial board layout for the game
 GRID = np.array([['5', '3', '0', '0', '7', '0', '0', '0', '0'],
@@ -120,6 +122,62 @@ def put_number(x: int, y: int, user_input: int) -> None:
     number_text = FONT_NUMBER.render(str(user_input), True, BLACK)
     WIN.blit(number_text, (x * CELL_SPACE + CELL_SPACE /
                            3.3, y * CELL_SPACE + CELL_SPACE / 5))
+
+
+def is_valid_move(grid: npt.NDArray, r: int, c: int, num: str) -> bool:
+    for i in range(9):
+        if grid[r][i] == num:
+            return False
+        if grid[i][c] == num:
+            return False
+
+    j = r // 3
+    m = c // 3
+    for r in range(j * 3, j * 3 + 3):
+        for c in range(m * 3, m * 3 + 3):
+            if grid[r][c] == num:
+                return False
+    return True
+
+
+def backtracking_solver(grid: npt.NDArray, r: int, c: int) -> bool:
+    while grid[r][c] != "0":
+        r, c = Solver().move_to_next_cell(r, c)
+
+        # Base case
+        if r > 8:
+            return True
+
+    pygame.event.pump()
+
+    for num in [str(n) for n in range(1, 10)]:
+        if is_valid_move(grid, r, c, num):
+            grid[r][c] = num
+
+            # Switch x to col and y to row
+            x = c
+            y = r
+
+            # Refresh Sudoku board
+            WIN.fill((255, 255, 255))
+            draw_board()
+            highlight_selection(x, y)
+            pygame.display.update()
+            pygame.time.delay(DELAY_TIME)
+
+            if backtracking_solver(grid, r, c):
+                return True
+            else:
+                grid[r][c] = "0"
+
+            # Refresh Sudoku board
+            WIN.fill((255, 255, 255))
+            draw_board()
+            highlight_selection(x, y)
+            pygame.display.update()
+            pygame.time.delay(DELAY_TIME)
+
+    return False
 
 
 def main(language='日本語') -> None:
@@ -295,6 +353,8 @@ def game() -> None:
                     for i in range(9):
                         for j in range(9):
                             GRID[i][j] = GRID_COPY[i][j]
+                if event.key == pygame.K_b and pygame.KMOD_SHIFT:
+                    backtracking_solver(GRID.transpose(), 0, 0)
 
         # Check if current cell is occupied
         if user_input != 0 and GRID_COPY[x][y] == '0':
