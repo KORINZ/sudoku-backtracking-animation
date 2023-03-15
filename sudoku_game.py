@@ -249,6 +249,8 @@ def main(language='日本語') -> None:
                 return game()
             if instruction_x0 < x < instruction_x1 and instruction_y0 < y < instruction_y1:
                 return instruction(language)
+            if setting_x0 < x < setting_x1 and setting_y0 < y < setting_y1:
+                return setting(language)
             if quit_x0 < x < quit_x1 and quit_y0 < y < quit_y1:
                 pygame.quit()
                 sys.exit()
@@ -302,6 +304,31 @@ def instruction(language: str) -> None:
 
         message_ss = FONT_MESSAGE.render("SHIFT + S - 解答を表示", True, BLACK)
         WIN.blit(message_ss, (WIDTH / 2 - message_ss.get_width() // 2, 500))
+
+        # Place go back button
+        back_lang = Menu().change_language(language, '戻る', 'Back')
+        back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button(back_lang, 600)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return main(language='ENG') if back_lang == 'Back' else main()
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                pos = pygame.mouse.get_pos()
+                print(pos)
+                x, y = pos
+            if back_x0 < x < back_x1 and back_y0 < y < back_y1:
+                return main(language='ENG') if back_lang == 'Back' else main()
+        pygame.display.update()
+
+
+def setting(language: str) -> None:
+    x, y = 0, 0
+    while True:
+        WIN.fill(WHITE)
 
         # Place go back button
         back_lang = Menu().change_language(language, '戻る', 'Back')
