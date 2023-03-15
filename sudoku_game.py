@@ -177,6 +177,17 @@ def backtracking_solver(grid: npt.NDArray, r: int, c: int) -> bool:
             pygame.display.update()
             pygame.time.delay(DELAY_TIME)
 
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    # Stop and reset grid
+                    if event.key == pygame.K_r and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                        for i in range(9):
+                            for j in range(9):
+                                GRID[i][j] = GRID_COPY[i][j]
+                        return True
     return False
 
 
