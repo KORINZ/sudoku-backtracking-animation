@@ -10,7 +10,7 @@ class Validator:
         self.boxes = defaultdict(set)
 
     def sudoku_validator(self, board: List[List[str]]) -> bool:
-        '''Validate a sudoku board.'''
+        """Validate a sudoku board."""
 
         for r in range(9):
             for c in range(9):

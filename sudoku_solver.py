@@ -28,12 +28,13 @@ class Solver:
         self.board = deepcopy(input_board)
 
         # Place existing numbers to the gird
-        for row in range(9):
-            for col in range(9):
-                if self.board[row][col] != "0":
-                    self.rows[row].add(self.board[row][col])
-                    self.cols[col].add(self.board[row][col])
-                    self.boxes[(row // 3, col // 3)].add(self.board[row][col])
+        for r in range(9):
+            for c in range(9):
+                val = self.board[r][c]
+                if val != "0":
+                    self.rows[r].add(val)
+                    self.cols[c].add(val)
+                    self.boxes[(r // 3, c // 3)].add(val)
 
         self.backtrack(0, 0)
         # Return the original input board if the sudoku board is not valid
@@ -43,6 +44,7 @@ class Solver:
             return input_board
 
         # Check if a number can be placed according to the constraints
+
     def can_place_number(self, r: int, c: int, num: str) -> bool:
         if (num in self.rows[r]) or (num in self.cols[c]) or (num in self.boxes[(r // 3, c // 3)]):
             return False
@@ -64,11 +66,10 @@ class Solver:
     def move_to_next_cell(self, r: int, c: int) -> Tuple[int, int]:
         # Move to next column
         if c < 8:
-            new_r, new_c = r, c + 1
+            return r,  c + 1
         # Move to next row, reset column index
         else:
-            new_r, new_c = r + 1, 0
-        return new_r, new_c
+            return r + 1, 0
 
     def backtrack(self, r: int, c: int) -> bool:
         # Base case: reached last row + 1

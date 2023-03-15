@@ -110,7 +110,7 @@ def highlight_selection(x: int, y: int) -> None:
     '''Highlight current selected cell'''
     for i in range(2):
         pygame.draw.line(WIN, BLACK, (x * CELL_SPACE, (y + i) * CELL_SPACE),
-                         (x * CELL_SPACE + CELL_SPACE, (y + i)*CELL_SPACE), 7)
+                         (x * CELL_SPACE + CELL_SPACE, (y + i) * CELL_SPACE), 7)
         pygame.draw.line(WIN, BLACK, ((x + i) * CELL_SPACE, y * CELL_SPACE),
                          ((x + i) * CELL_SPACE, y * CELL_SPACE + CELL_SPACE), 7)
 
@@ -131,13 +131,13 @@ def main(language='日本語') -> None:
         # Place icon image
         menu_icon = pygame.transform.scale(ICON, (120, 120))
         WIN.blit(menu_icon, (WIDTH / 2 - menu_icon.get_width() //
-                 2, 75))
+                             2, 75))
 
         # Place game tittle
         title_lang = Menu().change_language(language, '数独', 'Sudoku')
         title = FONT_MENU.render(title_lang, True, BLACK)
         WIN.blit(title, (WIDTH / 2 - title.get_width() //
-                 2, 210))
+                         2, 210))
 
         # Place language button
         button_language = FONT_BUTTON_SMALL.render('日本語 / ENG', True, BLACK)
@@ -199,21 +199,21 @@ def instruction(language: str) -> None:
         message_how_to_play_1 = FONT_MESSAGE_SMALL.render(
             "空いているマスに、キーボードで1〜9のいずれかの数字を入れる。", True, BLACK)
         WIN.blit(message_how_to_play_1, (WIDTH / 2 -
-                 message_how_to_play_1.get_width() // 2, 120))
+                                         message_how_to_play_1.get_width() // 2, 120))
 
         message_how_to_play_2 = FONT_MESSAGE_SMALL.render(
             "縦・横の各列に、同じ数字が重複して入ってはいけない。", True, BLACK)
         WIN.blit(message_how_to_play_2, (WIDTH / 2 -
-                 message_how_to_play_2.get_width() // 2, 150))
+                                         message_how_to_play_2.get_width() // 2, 150))
 
         message_how_to_play_3 = FONT_MESSAGE_SMALL.render(
             "太線で囲まれた3x3のグループ内に、同じ数字が重複して入ってはいけない。", True, BLACK)
         WIN.blit(message_how_to_play_3, (WIDTH / 2 -
-                 message_how_to_play_3.get_width() // 2, 180))
+                                         message_how_to_play_3.get_width() // 2, 180))
 
         message_keyboard = FONT_MESSAGE.render("基本操作", True, BLACK)
         WIN.blit(message_keyboard, (WIDTH / 2 -
-                 message_keyboard.get_width() // 2, 250))
+                                    message_keyboard.get_width() // 2, 250))
 
         message_esc = FONT_MESSAGE.render(
             "ESC - メニューに戻る（進行状況は保存される）", True, BLACK)
@@ -222,8 +222,17 @@ def instruction(language: str) -> None:
         message_d = FONT_MESSAGE.render("D - 現在の数字を消す", True, BLACK)
         WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 350))
 
+        message_sr = FONT_MESSAGE.render("SHIFT + R - ", True, BLACK)
+        WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
+
+        message_sb = FONT_MESSAGE.render("SHIFT + B - ", True, BLACK)
+        WIN.blit(message_sb, (WIDTH / 2 - message_sb.get_width() // 2, 450))
+
+        message_ss = FONT_MESSAGE.render("SHIFT + S - ", True, BLACK)
+        WIN.blit(message_ss, (WIDTH / 2 - message_ss.get_width() // 2, 500))
+
         # Place go back button
-        back_lang = Menu().change_language(language, '戻り', 'Back')
+        back_lang = Menu().change_language(language, '戻る', 'Back')
         back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button(back_lang, 600)
 
         for event in pygame.event.get():
