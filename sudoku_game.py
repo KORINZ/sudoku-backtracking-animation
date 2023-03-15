@@ -4,7 +4,7 @@ import numpy as np
 import numpy.typing as npt
 from sudoku_solver import Solver
 from sudoku_validator import Validator
-from typing import Tuple, List
+from typing import Tuple
 from copy import deepcopy
 
 # Screen size and board cell size
