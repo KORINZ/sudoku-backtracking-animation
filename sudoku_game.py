@@ -222,7 +222,7 @@ def instruction(language: str) -> None:
         message_d = FONT_MESSAGE.render("D - 現在の数字を消す", True, BLACK)
         WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 350))
 
-        message_sr = FONT_MESSAGE.render("SHIFT + R - ", True, BLACK)
+        message_sr = FONT_MESSAGE.render("SHIFT + R - リセット", True, BLACK)
         WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
 
         message_sb = FONT_MESSAGE.render("SHIFT + B - ", True, BLACK)
