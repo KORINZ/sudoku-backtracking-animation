@@ -23,6 +23,7 @@ GRAY = (128, 128, 128)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
+
 # Define fonts
 pygame.font.init()
 FONT_NUMBER = pygame.font.SysFont("Calibri", 60)
@@ -32,9 +33,10 @@ FONT_BUTTON_SMALL = pygame.font.Font('ipaexg.ttf', 25)
 FONT_MESSAGE = pygame.font.Font('ipaexg.ttf', 30)
 FONT_MESSAGE_SMALL = pygame.font.Font('ipaexg.ttf', 20)
 
-# Game refresh rate
+# Game initial settings
 FPS = 60
-DELAY_TIME = 1
+DELAY_TIME = 1  # ミリ秒SS
+HIGHLIGHT_COLOR = BLACK
 
 # Initial board layout for the game
 GRID = np.array([['5', '3', '0', '0', '7', '0', '0', '0', '0'],
@@ -111,9 +113,9 @@ def draw_board() -> None:
 def highlight_selection(x: int, y: int) -> None:
     '''Highlight current selected cell'''
     for i in range(2):
-        pygame.draw.line(WIN, BLACK, (x * CELL_SPACE, (y + i) * CELL_SPACE),
+        pygame.draw.line(WIN, HIGHLIGHT_COLOR, (x * CELL_SPACE, (y + i) * CELL_SPACE),
                          (x * CELL_SPACE + CELL_SPACE, (y + i) * CELL_SPACE), 7)
-        pygame.draw.line(WIN, BLACK, ((x + i) * CELL_SPACE, y * CELL_SPACE),
+        pygame.draw.line(WIN, HIGHLIGHT_COLOR, ((x + i) * CELL_SPACE, y * CELL_SPACE),
                          ((x + i) * CELL_SPACE, y * CELL_SPACE + CELL_SPACE), 7)
 
 
@@ -294,7 +296,8 @@ def instruction(language: str) -> None:
         message_sr = FONT_MESSAGE.render("SHIFT + R - リセット", True, BLACK)
         WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
 
-        message_sb = FONT_MESSAGE.render("SHIFT + B - バックトラッキング動画", True, BLACK)
+        message_sb = FONT_MESSAGE.render(
+            "SHIFT + B - バックトラッキング動画", True, BLACK)
         WIN.blit(message_sb, (WIDTH / 2 - message_sb.get_width() // 2, 450))
 
         message_ss = FONT_MESSAGE.render("SHIFT + S - 解答を表示", True, BLACK)
