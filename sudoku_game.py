@@ -330,6 +330,9 @@ def setting(language: str) -> None:
     while True:
         WIN.fill(WHITE)
 
+        message_dummy = FONT_MESSAGE.render("まだ何もない", True, BLACK)
+        WIN.blit(message_dummy, (WIDTH / 2 - message_dummy.get_width() // 2, 70))
+
         # Place go back button
         back_lang = Menu().change_language(language, '戻る', 'Back')
         back_x0, back_y0, back_x1, back_y1 = Menu().make_centered_button(back_lang, 600)
