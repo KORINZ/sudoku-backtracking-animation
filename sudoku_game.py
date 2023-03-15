@@ -294,10 +294,10 @@ def instruction(language: str) -> None:
         message_sr = FONT_MESSAGE.render("SHIFT + R - リセット", True, BLACK)
         WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
 
-        message_sb = FONT_MESSAGE.render("SHIFT + B - バックトラッキング", True, BLACK)
+        message_sb = FONT_MESSAGE.render("SHIFT + B - バックトラッキング動画", True, BLACK)
         WIN.blit(message_sb, (WIDTH / 2 - message_sb.get_width() // 2, 450))
 
-        message_ss = FONT_MESSAGE.render("SHIFT + S - ", True, BLACK)
+        message_ss = FONT_MESSAGE.render("SHIFT + S - 解答を表示", True, BLACK)
         WIN.blit(message_ss, (WIDTH / 2 - message_ss.get_width() // 2, 500))
 
         # Place go back button
@@ -366,6 +366,12 @@ def game() -> None:
                             GRID[i][j] = GRID_COPY[i][j]
                 if event.key == pygame.K_b and pygame.key.get_mods() & pygame.KMOD_SHIFT:
                     backtracking_solver(GRID.transpose(), 0, 0)
+
+                if event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                    solution = Solver().sudoku_solver(GRID_COPY.tolist())
+                    for i in range(9):
+                        for j in range(9):
+                            GRID[i][j] = solution[i][j]
 
         # Check if current cell is occupied
         if user_input != 0 and GRID_COPY[x][y] == '0':
