@@ -282,6 +282,10 @@ def game() -> None:
                     return main()
                 if event.key == pygame.K_d and GRID_COPY[x][y] == '0':
                     GRID[x][y] = '0'
+                if event.key == pygame.K_r and pygame.KMOD_SHIFT:
+                    for i in range(9):
+                        for j in range(9):
+                            GRID[i][j] = GRID_COPY[i][j]
 
         # Check if current cell is occupied
         if user_input != 0 and GRID_COPY[x][y] == '0':
