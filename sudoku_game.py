@@ -283,7 +283,7 @@ def instruction(language: str) -> None:
         message_sr = FONT_MESSAGE.render("SHIFT + R - リセット", True, BLACK)
         WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
 
-        message_sb = FONT_MESSAGE.render("SHIFT + B - ", True, BLACK)
+        message_sb = FONT_MESSAGE.render("SHIFT + B - バックトラッキング", True, BLACK)
         WIN.blit(message_sb, (WIDTH / 2 - message_sb.get_width() // 2, 450))
 
         message_ss = FONT_MESSAGE.render("SHIFT + S - ", True, BLACK)
