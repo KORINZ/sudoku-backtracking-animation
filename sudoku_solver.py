@@ -5,24 +5,11 @@ from copy import deepcopy
 
 class Solver:
     def __init__(self) -> None:
-        self.string_number = [str(n) for n in range(1, 10)]
         self.rows = defaultdict(set)
         self.cols = defaultdict(set)
         self.boxes = defaultdict(set)
         self.board = [["0" for i in range(9)] for i in range(9)]
-
-    def print_board(self, board: List[List[str]]) -> None:
-        board_copy = deepcopy(board)
-        print("-" * 25)
-        for i, row in enumerate(board_copy):
-            for j, num in enumerate(row):
-                if num == "0":
-                    row[j] = "."
-            row_str = " | ".join([" ".join(map(str, row[m:m + 3]))
-                                  for m in range(0, len(row), 3)])
-            print(f'| {row_str} |')
-            if (i + 1) % 3 == 0:
-                print("-" * 25)
+        self.string_number = [str(n) for n in range(1, 10)]
 
     def sudoku_solver(self, input_board: List[List[str]]) -> List[List[str]]:
         self.board = deepcopy(input_board)
@@ -95,6 +82,7 @@ class Solver:
 
 
 if __name__ == '__main__':
+
     INPUT_BOARD = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
                    ['6', '0', '0', '1', '9', '5', '0', '0', '0'],
                    ['0', '9', '8', '0', '0', '0', '0', '6', '0'],
@@ -104,14 +92,28 @@ if __name__ == '__main__':
                    ['0', '6', '0', '0', '0', '0', '2', '8', '0'],
                    ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
                    ['0', '0', '0', '0', '8', '0', '0', '7', '9']]
+
+    def print_board(board: List[List[str]]) -> None:
+        board_copy = deepcopy(board)
+        print("-" * 25)
+        for i, row in enumerate(board_copy):
+            for j, num in enumerate(row):
+                if num == "0":
+                    row[j] = "."
+            row_str = " | ".join([" ".join(map(str, row[m:m + 3]))
+                                 for m in range(0, len(row), 3)])
+            print(f'| {row_str} |')
+            if (i + 1) % 3 == 0:
+                print("-" * 25)
+
     print('\nGiven:')
-    Solver().print_board(INPUT_BOARD)
+    print_board(INPUT_BOARD)
 
     # Solve the Sudoku board
     solution = Solver().sudoku_solver(INPUT_BOARD)
 
     if solution != INPUT_BOARD:
         print('\nSolution:')
-        Solver().print_board(solution)
+        print_board(solution)
     else:
         print('\nNot a valid Sudoku board.')
