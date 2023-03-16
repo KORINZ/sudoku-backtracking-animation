@@ -1,11 +1,10 @@
 import pygame
 import sys
-import numpy as np
-import numpy.typing as npt
 from sudoku_menu import Menu
 from sudoku_solver import Solver
 from sudoku_validator import Validator
 from copy import deepcopy
+from typing import List
 
 
 # Screen size and board cell size
@@ -36,20 +35,20 @@ FONT_MESSAGE_SMALL = pygame.font.Font('ipaexg.ttf', 20)
 
 # Game initial settings
 FPS = 60
-DELAY_TIME = 2  # ミリ秒
+DELAY_TIME = 1  # ミリ秒
 HIGHLIGHT_COLOR = BLACK
 menu = Menu()
 
 # Initial board layout for the game
-GRID = np.array([['5', '3', '0', '0', '7', '0', '0', '0', '0'],
-                 ['6', '0', '0', '1', '9', '5', '0', '0', '0'],
-                 ['0', '9', '8', '0', '0', '0', '0', '6', '0'],
-                 ['8', '0', '0', '0', '6', '0', '0', '0', '3'],
-                 ['4', '0', '0', '8', '0', '3', '0', '0', '1'],
-                 ['7', '0', '0', '0', '2', '0', '0', '0', '6'],
-                 ['0', '6', '0', '0', '0', '0', '2', '8', '0'],
-                 ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
-                 ['0', '0', '0', '0', '8', '0', '0', '7', '9']]).transpose()
+GRID = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
+        ['6', '0', '0', '1', '9', '5', '0', '0', '0'],
+        ['0', '9', '8', '0', '0', '0', '0', '6', '0'],
+        ['8', '0', '0', '0', '6', '0', '0', '0', '3'],
+        ['4', '0', '0', '8', '0', '3', '0', '0', '1'],
+        ['7', '0', '0', '0', '2', '0', '0', '0', '6'],
+        ['0', '6', '0', '0', '0', '0', '2', '8', '0'],
+        ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
+        ['0', '0', '0', '0', '8', '0', '0', '7', '9']]
 GRID_COPY = deepcopy(GRID)
 
 
@@ -61,12 +60,13 @@ def draw_board() -> None:
                 cell_color = GRAY
             else:
                 cell_color = WHITE
-            if GRID[i][j] != '0':
-                pygame.draw.rect(WIN, cell_color, (i * CELL_SPACE,
-                                                   j * CELL_SPACE, CELL_SPACE, CELL_SPACE))
+            if GRID[i][j] != "0":
+                pygame.draw.rect(WIN, cell_color, (j * CELL_SPACE,
+                                                   i * CELL_SPACE, CELL_SPACE, CELL_SPACE))
+
                 number_text = FONT_NUMBER.render(str(GRID[i][j]), True, BLACK)
-                WIN.blit(number_text, (i * CELL_SPACE + CELL_SPACE /
-                                       3.3, j * CELL_SPACE + CELL_SPACE / 5))
+                y_row, x_col = j * CELL_SPACE + CELL_SPACE / 3.2, i * CELL_SPACE + CELL_SPACE / 5
+                WIN.blit(number_text, (y_row, x_col))
 
     # Draw board lines
     for i in range(10):
@@ -80,23 +80,23 @@ def draw_board() -> None:
                          (i * CELL_SPACE, HEIGHT), thickness)
 
 
-def highlight_selection(x: int, y: int) -> None:
+def highlight_selection(x_col: int, y_row: int) -> None:
     '''Highlight current selected cell'''
     for i in range(2):
-        pygame.draw.line(WIN, HIGHLIGHT_COLOR, (x * CELL_SPACE, (y + i) * CELL_SPACE),
-                         (x * CELL_SPACE + CELL_SPACE, (y + i) * CELL_SPACE), 7)
-        pygame.draw.line(WIN, HIGHLIGHT_COLOR, ((x + i) * CELL_SPACE, y * CELL_SPACE),
-                         ((x + i) * CELL_SPACE, y * CELL_SPACE + CELL_SPACE), 7)
+        pygame.draw.line(WIN, HIGHLIGHT_COLOR, (y_row * CELL_SPACE, (x_col + i) * CELL_SPACE),
+                         (y_row * CELL_SPACE + CELL_SPACE, (x_col + i) * CELL_SPACE), 7)
+        pygame.draw.line(WIN, HIGHLIGHT_COLOR, ((y_row + i) * CELL_SPACE, x_col * CELL_SPACE),
+                         ((y_row + i) * CELL_SPACE, x_col * CELL_SPACE + CELL_SPACE), 7)
 
 
-def put_number(x: int, y: int, user_input: int) -> None:
+def put_number(x_col: int, y_row: int, user_input: int) -> None:
     '''Place a number in a cell'''
     number_text = FONT_NUMBER.render(str(user_input), True, BLACK)
-    WIN.blit(number_text, (x * CELL_SPACE + CELL_SPACE /
-                           3.3, y * CELL_SPACE + CELL_SPACE / 5))
+    WIN.blit(number_text, (y_row * CELL_SPACE + CELL_SPACE /
+                           3.2, x_col * CELL_SPACE + CELL_SPACE / 5))
 
 
-def is_valid_move(grid: npt.NDArray, r: int, c: int, num: str) -> bool:
+def is_valid_move(grid: List[List[str]], r: int, c: int, num: str) -> bool:
     for i in range(9):
         if grid[r][i] == num:
             return False
@@ -112,7 +112,7 @@ def is_valid_move(grid: npt.NDArray, r: int, c: int, num: str) -> bool:
     return True
 
 
-def backtracking_solver(grid: npt.NDArray, r: int, c: int) -> bool:
+def backtracking_solver(grid: List[List[str]], r: int, c: int) -> bool:
     while grid[r][c] != "0":
         r, c = Solver().move_to_next_cell(r, c)
 
@@ -126,14 +126,10 @@ def backtracking_solver(grid: npt.NDArray, r: int, c: int) -> bool:
         if is_valid_move(grid, r, c, num):
             grid[r][c] = num
 
-            # Switch x to col and y to row
-            x = c
-            y = r
-
             # Refresh Sudoku board
             WIN.fill((255, 255, 255))
             draw_board()
-            highlight_selection(x, y)
+            highlight_selection(r, c)
             pygame.display.update()
             pygame.time.delay(DELAY_TIME)
 
@@ -145,7 +141,7 @@ def backtracking_solver(grid: npt.NDArray, r: int, c: int) -> bool:
             # Refresh Sudoku board
             WIN.fill((255, 255, 255))
             draw_board()
-            highlight_selection(x, y)
+            highlight_selection(r, c)
             pygame.display.update()
             pygame.time.delay(DELAY_TIME)
 
@@ -186,7 +182,7 @@ def main(language='日本語') -> None:
         language_x, language_y = 10, 10
 
         # Place start button
-        if (GRID == GRID_COPY).all():
+        if GRID == GRID_COPY:
             start_lang = menu.change_language(language, 'スタート', 'Start')
             start_x0, start_y0, start_x1, start_y1 = menu.make_centered_button(
                 start_lang, 400)
@@ -333,7 +329,7 @@ def game() -> None:
     clock = pygame.time.Clock()
     run = True
     user_input = 0
-    x, y = 0, 0
+    x_col, y_row = 0, 0
 
     while run:
         WIN.fill(WHITE)
@@ -344,7 +340,7 @@ def game() -> None:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 pos = pygame.mouse.get_pos()
                 print(pos)
-                x, y = pos[0] // CELL_SPACE, pos[1] // CELL_SPACE
+                x_col, y_row = pos[0] // CELL_SPACE, pos[1] // CELL_SPACE
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
@@ -367,39 +363,39 @@ def game() -> None:
                     user_input = 9
                 if event.key == pygame.K_ESCAPE:
                     return main()
-                if event.key == pygame.K_d and GRID_COPY[x][y] == '0':
-                    GRID[x][y] = '0'
+                if event.key == pygame.K_d and GRID_COPY[y_row][x_col] == '0':
+                    GRID[y_row][x_col] = '0'
                 if event.key == pygame.K_r and pygame.key.get_mods() & pygame.KMOD_SHIFT:
                     for i in range(9):
                         for j in range(9):
                             GRID[i][j] = GRID_COPY[i][j]
                 if event.key == pygame.K_b and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                    backtracking_solver(GRID.transpose(), 0, 0)
+                    backtracking_solver(GRID, 0, 0)
 
                 if event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                    solution = Solver().sudoku_solver(GRID_COPY.tolist())
+                    solution = Solver().sudoku_solver(GRID_COPY)
                     for i in range(9):
                         for j in range(9):
                             GRID[i][j] = solution[i][j]
 
         # Check if current cell is occupied
-        if user_input != 0 and GRID_COPY[x][y] == '0':
+        if user_input != 0 and GRID_COPY[y_row][x_col] == '0':
 
             # Put number in current cell
-            GRID[x][y] = str(user_input)
+            GRID[y_row][x_col] = str(user_input)
 
             # validate the Sudoku board
-            if not Validator().sudoku_validator(list(GRID)):
-                GRID[x][y] = "0"
+            if not Validator().sudoku_validator(GRID):
+                GRID[y_row][x_col] = "0"
             else:
-                put_number(x, y, user_input)
+                put_number(y_row, x_col, user_input)
 
             # Reset user_input to 0 after put_number() and sudoku_validator()
             user_input = 0
-            print(x, y)
+            print(x_col, y_row)
 
         draw_board()
-        highlight_selection(x, y)
+        highlight_selection(y_row, x_col)
         pygame.display.update()
 
     pygame.quit()
