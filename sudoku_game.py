@@ -2,9 +2,9 @@ import pygame
 import sys
 import numpy as np
 import numpy.typing as npt
-from sudoku_menu import Menu
 from sudoku_solver import Solver
 from sudoku_validator import Validator
+from typing import Tuple
 from copy import deepcopy
 
 # Screen size and board cell size
@@ -49,6 +49,38 @@ GRID = np.array([['5', '3', '0', '0', '7', '0', '0', '0', '0'],
                  ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
                  ['0', '0', '0', '0', '8', '0', '0', '7', '9']]).transpose()
 GRID_COPY = deepcopy(GRID)
+
+
+class Menu():
+    def __init__(self) -> None:
+        self.color = BLACK
+        self.font = FONT_BUTTON
+        self.line_width = 3
+        self.language = '日本語'
+
+    def make_centered_button(self, name: str, starting_y: int) -> Tuple[int, int, int, int]:
+        button = self.font.render(name, True, self.color)
+        WIN.blit(button, (WIDTH / 2 - button.get_width() // 2, starting_y))
+
+        # Starting x and y points of the button
+        button_starting_x, button_starting_y = (
+            WIDTH - button.get_width()) // 2, starting_y
+        pygame.draw.rect(WIN, BLACK, (button_starting_x, button_starting_y, button.get_width(
+        ), button.get_height()), width=self.line_width)
+
+        # Ending x and y points of the button
+        button_ending_x, button_ending_y = button_starting_x + \
+            button.get_width(), button_starting_y + button.get_height()
+        return button_starting_x, button_starting_y, button_ending_x, button_ending_y
+
+    def change_language(self, lang: str, word_ja: str, word_en: str) -> str:
+        if lang == self.language:
+            return word_ja
+        else:
+            return word_en
+
+    def make_centered_message(self) -> None:
+        pass
 
 
 def draw_board() -> None:
