@@ -35,7 +35,7 @@ FONT_MESSAGE_SMALL = pygame.font.Font('ipaexg.ttf', 20)
 
 # Game initial settings
 FPS = 60
-DELAY_TIME = 1  # ミリ秒
+DELAY_TIME = 1000  # ミリ秒
 HIGHLIGHT_COLOR = BLACK
 menu = Menu()
 
@@ -97,22 +97,28 @@ def put_number(x_col: int, y_row: int, user_input: int) -> None:
 
 
 def is_valid_move(grid: List[List[int]], r: int, c: int, num: int) -> bool:
-    for i in range(9):
-        if grid[r][i] == num:
+    """Check if a number is valid in current location"""
+
+    # Check current row and current column
+    for _ in range(9):
+        if grid[r][_] == num:
             return False
-        if grid[i][c] == num:
+        if grid[_][c] == num:
             return False
 
-    j = r // 3
-    m = c // 3
-    for r in range(j * 3, j * 3 + 3):
-        for c in range(m * 3, m * 3 + 3):
+    # Check box
+    i = r // 3
+    j = c // 3
+    for r in range(i * 3, i * 3 + 3):
+        for c in range(j * 3, j * 3 + 3):
             if grid[r][c] == num:
                 return False
     return True
 
 
 def backtracking_solver(grid: List[List[int]], r: int, c: int) -> bool:
+    """Solve the grid with backtracking animation"""
+
     while grid[r][c] != 0:
         r, c = Solver().move_to_next_cell(r, c)
 
@@ -127,7 +133,7 @@ def backtracking_solver(grid: List[List[int]], r: int, c: int) -> bool:
             grid[r][c] = num
 
             # Refresh Sudoku board
-            WIN.fill((255, 255, 255))
+            WIN.fill(BLACK)
             draw_board()
             highlight_selection(r, c)
             pygame.display.update()
@@ -139,7 +145,7 @@ def backtracking_solver(grid: List[List[int]], r: int, c: int) -> bool:
                 grid[r][c] = 0
 
             # Refresh Sudoku board
-            WIN.fill((255, 255, 255))
+            WIN.fill(BLACK)
             draw_board()
             highlight_selection(r, c)
             pygame.display.update()
