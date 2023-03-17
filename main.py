@@ -122,7 +122,7 @@ def backtracking_solver(grid: List[List[int]], r: int, c: int) -> bool:
 
     pygame.event.pump()
 
-    for num in [n for n in range(1, 10)]:
+    for num in range(1, 10):
         if is_valid_move(grid, r, c, num):
             grid[r][c] = num
 
@@ -379,20 +379,12 @@ def game() -> None:
                             GRID[i][j] = solution[i][j]
 
         # Check if current cell is occupied
-        if user_input != 0 and GRID_COPY[y_row][x_col] == 0:
+        if is_valid_move(GRID, y_row, x_col, user_input) and GRID_COPY[y_row][x_col] == 0 and user_input != 0:
+            GRID[y_row][x_col] = user_input
+            put_number(y_row, x_col, user_input)
 
-            # Put number in current cell
-            GRID[y_row][x_col] = int(user_input)
-
-            # validate the Sudoku board
-            if not Validator().sudoku_validator(GRID):
-                GRID[y_row][x_col] = 0
-            else:
-                put_number(y_row, x_col, user_input)
-
-            # Reset user_input to 0 after put_number() and sudoku_validator()
+            # Reset user_input to 0
             user_input = 0
-            print(x_col, y_row)
 
         draw_board()
         highlight_selection(y_row, x_col)

@@ -4,7 +4,6 @@ from typing import List
 
 class Validator:
     def __init__(self) -> None:
-        self.string_number = [n for n in range(1, 10)]
         self.rows = defaultdict(set)
         self.cols = defaultdict(set)
         self.boxes = defaultdict(set)

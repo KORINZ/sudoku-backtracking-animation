@@ -9,7 +9,6 @@ class Solver:
         self.cols = defaultdict(set)
         self.boxes = defaultdict(set)
         self.board = [[0 for i in range(9)] for i in range(9)]
-        self.string_number = [n for n in range(1, 10)]
 
     def sudoku_solver(self, input_board: List[List[int]]) -> List[List[int]]:
         self.board = deepcopy(input_board)
@@ -69,7 +68,7 @@ class Solver:
             return self.backtrack(new_r, new_c)
 
         # If a number can be placed, place it to the board
-        for num in self.string_number:
+        for num in range(1, 10):
             if self.can_place_number(r, c, num):
                 self.place_number_in_cell(r, c, num)
                 if self.backtrack(r, c):
