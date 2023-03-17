@@ -113,50 +113,94 @@ def instruction(language: str) -> None:
     x, y = 0, 0
     while True:
         WIN.fill(WHITE)
+        if language == '日本語':
+            message_rule = FONT_MESSAGE.render("遊び方", True, BLACK)
+            WIN.blit(message_rule, (WIDTH / 2 -
+                     message_rule.get_width() // 2, 70))
 
-        message_rule = FONT_MESSAGE.render("遊び方", True, BLACK)
-        WIN.blit(message_rule, (WIDTH / 2 - message_rule.get_width() // 2, 70))
+            message_how_to_play_1 = FONT_MESSAGE_SMALL.render(
+                "空いているマスに、キーボードで1〜9のいずれかの数字を入れる。", True, BLACK)
+            WIN.blit(message_how_to_play_1, (WIDTH / 2 -
+                                             message_how_to_play_1.get_width() // 2, 120))
 
-        message_how_to_play_1 = FONT_MESSAGE_SMALL.render(
-            "空いているマスに、キーボードで1〜9のいずれかの数字を入れる。", True, BLACK)
-        WIN.blit(message_how_to_play_1, (WIDTH / 2 -
-                                         message_how_to_play_1.get_width() // 2, 120))
+            message_how_to_play_2 = FONT_MESSAGE_SMALL.render(
+                "縦・横の各列に、同じ数字が重複して入ってはいけない。", True, BLACK)
+            WIN.blit(message_how_to_play_2, (WIDTH / 2 -
+                                             message_how_to_play_2.get_width() // 2, 150))
 
-        message_how_to_play_2 = FONT_MESSAGE_SMALL.render(
-            "縦・横の各列に、同じ数字が重複して入ってはいけない。", True, BLACK)
-        WIN.blit(message_how_to_play_2, (WIDTH / 2 -
-                                         message_how_to_play_2.get_width() // 2, 150))
+            message_how_to_play_3 = FONT_MESSAGE_SMALL.render(
+                "太線で囲まれた3x3のグループ内に、同じ数字が重複して入ってはいけない。", True, BLACK)
+            WIN.blit(message_how_to_play_3, (WIDTH / 2 -
+                                             message_how_to_play_3.get_width() // 2, 180))
 
-        message_how_to_play_3 = FONT_MESSAGE_SMALL.render(
-            "太線で囲まれた3x3のグループ内に、同じ数字が重複して入ってはいけない。", True, BLACK)
-        WIN.blit(message_how_to_play_3, (WIDTH / 2 -
-                                         message_how_to_play_3.get_width() // 2, 180))
+            message_keyboard = FONT_MESSAGE.render("基本操作", True, BLACK)
+            WIN.blit(message_keyboard, (WIDTH / 2 -
+                                        message_keyboard.get_width() // 2, 250))
 
-        message_keyboard = FONT_MESSAGE.render("基本操作", True, BLACK)
-        WIN.blit(message_keyboard, (WIDTH / 2 -
-                                    message_keyboard.get_width() // 2, 250))
+            message_esc = FONT_MESSAGE.render(
+                "ESC - メニューに戻る（進行状況は保存される）", True, BLACK)
+            WIN.blit(message_esc, (WIDTH / 2 - message_esc.get_width() // 2, 300))
 
-        message_esc = FONT_MESSAGE.render(
-            "ESC - メニューに戻る（進行状況は保存される）", True, BLACK)
-        WIN.blit(message_esc, (WIDTH / 2 - message_esc.get_width() // 2, 300))
+            message_d = FONT_MESSAGE.render("D - 現在の数字を消す", True, BLACK)
+            WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 350))
 
-        message_d = FONT_MESSAGE.render("D - 現在の数字を消す", True, BLACK)
-        WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 350))
+            message_sr = FONT_MESSAGE.render("SHIFT + R - リセット", True, BLACK)
+            WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
 
-        message_sr = FONT_MESSAGE.render("SHIFT + R - リセット", True, BLACK)
-        WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
+            message_sb = FONT_MESSAGE.render(
+                "SHIFT + B - バックトラッキング動画", True, BLACK)
+            WIN.blit(message_sb, (WIDTH / 2 - message_sb.get_width() // 2, 450))
 
-        message_sb = FONT_MESSAGE.render(
-            "SHIFT + B - バックトラッキング動画", True, BLACK)
-        WIN.blit(message_sb, (WIDTH / 2 - message_sb.get_width() // 2, 450))
+            message_ss = FONT_MESSAGE.render("SHIFT + S - 解答を表示", True, BLACK)
+            WIN.blit(message_ss, (WIDTH / 2 - message_ss.get_width() // 2, 500))
 
-        message_ss = FONT_MESSAGE.render("SHIFT + S - 解答を表示", True, BLACK)
-        WIN.blit(message_ss, (WIDTH / 2 - message_ss.get_width() // 2, 500))
+            # Place go back button
+            back_lang = menu.change_language(language, '戻る', 'Back')
+            back_x0, back_y0, back_x1, back_y1 = menu.make_centered_button(
+                back_lang, 600)
+        else:
+            message_rule = FONT_MESSAGE.render("Objective ", True, BLACK)
+            WIN.blit(message_rule, (WIDTH / 2 -
+                     message_rule.get_width() // 2, 70))
 
-        # Place go back button
-        back_lang = menu.change_language(language, '戻る', 'Back')
-        back_x0, back_y0, back_x1, back_y1 = menu.make_centered_button(
-            back_lang, 600)
+            message_how_to_play_1 = FONT_MESSAGE_SMALL.render(
+                "Fill a 9 x 9 grid with digits so that each column, each row, and each of the nine", True, BLACK)
+            WIN.blit(message_how_to_play_1, (WIDTH / 2 -
+                                             message_how_to_play_1.get_width() // 2, 120))
+
+            message_how_to_play_2 = FONT_MESSAGE_SMALL.render(
+                "3 x 3 subgrids that compose the grid contain all of the digits from 1 to 9.", True, BLACK)
+            WIN.blit(message_how_to_play_2, (WIDTH / 2 -
+                                             message_how_to_play_2.get_width() // 2, 150))
+
+            message_keyboard = FONT_MESSAGE.render("Keys", True, BLACK)
+            WIN.blit(message_keyboard, (WIDTH / 2 -
+                                        message_keyboard.get_width() // 2, 250))
+
+            message_esc = FONT_MESSAGE.render(
+                "ESC - Back to menu (progress will be saved)", True, BLACK)
+            WIN.blit(message_esc, (WIDTH / 2 - message_esc.get_width() // 2, 300))
+
+            message_d = FONT_MESSAGE.render(
+                "D - Remove current number", True, BLACK)
+            WIN.blit(message_d, (WIDTH / 2 - message_d.get_width() // 2, 350))
+
+            message_sr = FONT_MESSAGE.render(
+                "SHIFT + R - Reset game board", True, BLACK)
+            WIN.blit(message_sr, (WIDTH / 2 - message_sr.get_width() // 2, 400))
+
+            message_sb = FONT_MESSAGE.render(
+                "SHIFT + B - Play backtracking animation", True, BLACK)
+            WIN.blit(message_sb, (WIDTH / 2 - message_sb.get_width() // 2, 450))
+
+            message_ss = FONT_MESSAGE.render(
+                "SHIFT + S - Show solution", True, BLACK)
+            WIN.blit(message_ss, (WIDTH / 2 - message_ss.get_width() // 2, 500))
+
+            # Place go back button
+            back_lang = menu.change_language(language, '戻る', 'Back')
+            back_x0, back_y0, back_x1, back_y1 = menu.make_centered_button(
+                back_lang, 600)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -176,16 +220,28 @@ def instruction(language: str) -> None:
 
 def setting(language: str) -> None:
     x, y = 0, 0
+
     while True:
         WIN.fill(WHITE)
+        if language == '日本語':
+            message_dummy = FONT_MESSAGE.render("まだ何もない", True, BLACK)
+            WIN.blit(message_dummy, (WIDTH / 2 -
+                     message_dummy.get_width() // 2, 70))
 
-        message_dummy = FONT_MESSAGE.render("まだ何もない", True, BLACK)
-        WIN.blit(message_dummy, (WIDTH / 2 - message_dummy.get_width() // 2, 70))
+            # Place go back button
+            back_lang = menu.change_language(language, '戻る', 'Back')
+            back_x0, back_y0, back_x1, back_y1 = menu.make_centered_button(
+                back_lang, 600)
+        else:
+            message_dummy = FONT_MESSAGE.render(
+                "Work in progress...", True, BLACK)
+            WIN.blit(message_dummy, (WIDTH / 2 -
+                     message_dummy.get_width() // 2, 70))
 
-        # Place go back button
-        back_lang = menu.change_language(language, '戻る', 'Back')
-        back_x0, back_y0, back_x1, back_y1 = menu.make_centered_button(
-            back_lang, 600)
+            # Place go back button
+            back_lang = menu.change_language(language, '戻る', 'Back')
+            back_x0, back_y0, back_x1, back_y1 = menu.make_centered_button(
+                back_lang, 600)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
