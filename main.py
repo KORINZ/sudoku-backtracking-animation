@@ -40,15 +40,15 @@ HIGHLIGHT_COLOR = BLACK
 menu = Menu()
 
 # Initial board layout for the game
-GRID = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
-        ['6', '0', '0', '1', '9', '5', '0', '0', '0'],
-        ['0', '9', '8', '0', '0', '0', '0', '6', '0'],
-        ['8', '0', '0', '0', '6', '0', '0', '0', '3'],
-        ['4', '0', '0', '8', '0', '3', '0', '0', '1'],
-        ['7', '0', '0', '0', '2', '0', '0', '0', '6'],
-        ['0', '6', '0', '0', '0', '0', '2', '8', '0'],
-        ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
-        ['0', '0', '0', '0', '8', '0', '0', '7', '9']]
+GRID = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9]]
 GRID_COPY = deepcopy(GRID)
 
 
@@ -60,7 +60,7 @@ def draw_board() -> None:
                 cell_color = GRAY
             else:
                 cell_color = WHITE
-            if GRID[i][j] != "0":
+            if GRID[i][j] != 0:
                 pygame.draw.rect(WIN, cell_color, (j * CELL_SPACE,
                                                    i * CELL_SPACE, CELL_SPACE, CELL_SPACE))
 
@@ -96,7 +96,7 @@ def put_number(x_col: int, y_row: int, user_input: int) -> None:
                            3.2, x_col * CELL_SPACE + CELL_SPACE / 5))
 
 
-def is_valid_move(grid: List[List[str]], r: int, c: int, num: str) -> bool:
+def is_valid_move(grid: List[List[int]], r: int, c: int, num: int) -> bool:
     for i in range(9):
         if grid[r][i] == num:
             return False
@@ -112,8 +112,8 @@ def is_valid_move(grid: List[List[str]], r: int, c: int, num: str) -> bool:
     return True
 
 
-def backtracking_solver(grid: List[List[str]], r: int, c: int) -> bool:
-    while grid[r][c] != "0":
+def backtracking_solver(grid: List[List[int]], r: int, c: int) -> bool:
+    while grid[r][c] != 0:
         r, c = Solver().move_to_next_cell(r, c)
 
         # Base case
@@ -122,7 +122,7 @@ def backtracking_solver(grid: List[List[str]], r: int, c: int) -> bool:
 
     pygame.event.pump()
 
-    for num in [str(n) for n in range(1, 10)]:
+    for num in [n for n in range(1, 10)]:
         if is_valid_move(grid, r, c, num):
             grid[r][c] = num
 
@@ -136,7 +136,7 @@ def backtracking_solver(grid: List[List[str]], r: int, c: int) -> bool:
             if backtracking_solver(grid, r, c):
                 return True
             else:
-                grid[r][c] = "0"
+                grid[r][c] = 0
 
             # Refresh Sudoku board
             WIN.fill((255, 255, 255))
@@ -363,8 +363,8 @@ def game() -> None:
                     user_input = 9
                 if event.key == pygame.K_ESCAPE:
                     return main()
-                if event.key == pygame.K_d and GRID_COPY[y_row][x_col] == '0':
-                    GRID[y_row][x_col] = '0'
+                if event.key == pygame.K_d and GRID_COPY[y_row][x_col] == 0:
+                    GRID[y_row][x_col] = 0
                 if event.key == pygame.K_r and pygame.key.get_mods() & pygame.KMOD_SHIFT:
                     for i in range(9):
                         for j in range(9):
@@ -379,14 +379,14 @@ def game() -> None:
                             GRID[i][j] = solution[i][j]
 
         # Check if current cell is occupied
-        if user_input != 0 and GRID_COPY[y_row][x_col] == '0':
+        if user_input != 0 and GRID_COPY[y_row][x_col] == 0:
 
             # Put number in current cell
-            GRID[y_row][x_col] = str(user_input)
+            GRID[y_row][x_col] = int(user_input)
 
             # validate the Sudoku board
             if not Validator().sudoku_validator(GRID):
-                GRID[y_row][x_col] = "0"
+                GRID[y_row][x_col] = 0
             else:
                 put_number(y_row, x_col, user_input)
 

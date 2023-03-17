@@ -8,17 +8,17 @@ class Solver:
         self.rows = defaultdict(set)
         self.cols = defaultdict(set)
         self.boxes = defaultdict(set)
-        self.board = [["0" for i in range(9)] for i in range(9)]
-        self.string_number = [str(n) for n in range(1, 10)]
+        self.board = [[0 for i in range(9)] for i in range(9)]
+        self.string_number = [n for n in range(1, 10)]
 
-    def sudoku_solver(self, input_board: List[List[str]]) -> List[List[str]]:
+    def sudoku_solver(self, input_board: List[List[int]]) -> List[List[int]]:
         self.board = deepcopy(input_board)
 
         # Place existing numbers to the gird
         for r in range(9):
             for c in range(9):
                 val = self.board[r][c]
-                if val != "0":
+                if val != 0:
                     self.rows[r].add(val)
                     self.cols[c].add(val)
                     self.boxes[(r // 3, c // 3)].add(val)
@@ -32,20 +32,20 @@ class Solver:
 
         # Check if a number can be placed according to the constraints
 
-    def can_place_number(self, r: int, c: int, num: str) -> bool:
+    def can_place_number(self, r: int, c: int, num: int) -> bool:
         if (num in self.rows[r]) or (num in self.cols[c]) or (num in self.boxes[(r // 3, c // 3)]):
             return False
         else:
             return True
 
-    def place_number_in_cell(self, r: int, c: int, num: str) -> None:
+    def place_number_in_cell(self, r: int, c: int, num: int) -> None:
         self.board[r][c] = num
         self.rows[r].add(num)
         self.cols[c].add(num)
         self.boxes[(r // 3, c // 3)].add(num)
 
-    def remove_number_in_cell(self, r: int, c: int, num: str) -> None:
-        self.board[r][c] = "0"
+    def remove_number_in_cell(self, r: int, c: int, num: int) -> None:
+        self.board[r][c] = 0
         self.rows[r].remove(num)
         self.cols[c].remove(num)
         self.boxes[(r // 3, c // 3)].remove(num)
@@ -64,7 +64,7 @@ class Solver:
             return True
 
         # If a number already existed in the cell, move to the next cell
-        if self.board[r][c] != "0":
+        if self.board[r][c] != 0:
             new_r, new_c = self.move_to_next_cell(r, c)
             return self.backtrack(new_r, new_c)
 
@@ -83,18 +83,23 @@ class Solver:
 
 if __name__ == '__main__':
 
-    INPUT_BOARD = [['5', '3', '0', '0', '7', '0', '0', '0', '0'],
-                   ['6', '0', '0', '1', '9', '5', '0', '0', '0'],
-                   ['0', '9', '8', '0', '0', '0', '0', '6', '0'],
-                   ['8', '0', '0', '0', '6', '0', '0', '0', '3'],
-                   ['4', '0', '0', '8', '0', '3', '0', '0', '1'],
-                   ['7', '0', '0', '0', '2', '0', '0', '0', '6'],
-                   ['0', '6', '0', '0', '0', '0', '2', '8', '0'],
-                   ['0', '0', '0', '4', '1', '9', '0', '0', '5'],
-                   ['0', '0', '0', '0', '8', '0', '0', '7', '9']]
+    INPUT_BOARD = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
+                   [6, 0, 0, 1, 9, 5, 0, 0, 0],
+                   [0, 9, 8, 0, 0, 0, 0, 6, 0],
+                   [8, 0, 0, 0, 6, 0, 0, 0, 3],
+                   [4, 0, 0, 8, 0, 3, 0, 0, 1],
+                   [7, 0, 0, 0, 2, 0, 0, 0, 6],
+                   [0, 6, 0, 0, 0, 0, 2, 8, 0],
+                   [0, 0, 0, 4, 1, 9, 0, 0, 5],
+                   [0, 0, 0, 0, 8, 0, 0, 7, 9]]
 
-    def print_board(board: List[List[str]]) -> None:
+    def print_board(board: List[List[int]]) -> None:
         board_copy = deepcopy(board)
+        board_copy = [[str(num) for num in row] for row in board_copy]
+        for i, arr in enumerate(board_copy):
+            for j, num in enumerate(arr):
+                board_copy[i][j] = str(num)
+
         print("-" * 25)
         for i, row in enumerate(board_copy):
             for j, num in enumerate(row):
