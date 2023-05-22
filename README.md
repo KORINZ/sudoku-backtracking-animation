@@ -1,4 +1,4 @@
-# Sudoku Game with Backtracking Algorithm Demo
+# Sudoku Game with Backtracking Algorithm Animation
 
 <p align="center">
   <img width="537" alt="1" src="https://user-images.githubusercontent.com/111611023/226086168-efc15c2c-b31a-4cc4-a6a6-341596adae3b.gif">
