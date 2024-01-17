@@ -1,6 +1,7 @@
 from collections import defaultdict
 from typing import List, Tuple
 from copy import deepcopy
+import time
 
 
 class Solver:
@@ -32,7 +33,11 @@ class Solver:
         # Check if a number can be placed according to the constraints
 
     def can_place_number(self, r: int, c: int, num: int) -> bool:
-        if (num in self.rows[r]) or (num in self.cols[c]) or (num in self.boxes[(r // 3, c // 3)]):
+        if (
+            (num in self.rows[r])
+            or (num in self.cols[c])
+            or (num in self.boxes[(r // 3, c // 3)])
+        ):
             return False
         else:
             return True
@@ -52,7 +57,7 @@ class Solver:
     def move_to_next_cell(self, r: int, c: int) -> Tuple[int, int]:
         # Move to next column
         if c < 8:
-            return r,  c + 1
+            return r, c + 1
         # Move to next row, reset column index
         else:
             return r + 1, 0
@@ -80,17 +85,18 @@ class Solver:
         return False
 
 
-if __name__ == '__main__':
-
-    INPUT_BOARD = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
-                   [6, 0, 0, 1, 9, 5, 0, 0, 0],
-                   [0, 9, 8, 0, 0, 0, 0, 6, 0],
-                   [8, 0, 0, 0, 6, 0, 0, 0, 3],
-                   [4, 0, 0, 8, 0, 3, 0, 0, 1],
-                   [7, 0, 0, 0, 2, 0, 0, 0, 6],
-                   [0, 6, 0, 0, 0, 0, 2, 8, 0],
-                   [0, 0, 0, 4, 1, 9, 0, 0, 5],
-                   [0, 0, 0, 0, 8, 0, 0, 7, 9]]
+if __name__ == "__main__":
+    INPUT_BOARD = [
+        [5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9],
+    ]
 
     def print_board(board: List[List[int]]) -> None:
         board_copy = deepcopy(board)
@@ -104,20 +110,23 @@ if __name__ == '__main__':
             for j, num in enumerate(row):
                 if num == "0":
                     row[j] = "."
-            row_str = " | ".join([" ".join(map(str, row[m:m + 3]))
-                                 for m in range(0, len(row), 3)])
-            print(f'| {row_str} |')
+            row_str = " | ".join(
+                [" ".join(map(str, row[m : m + 3])) for m in range(0, len(row), 3)]
+            )
+            print(f"| {row_str} |")
             if (i + 1) % 3 == 0:
                 print("-" * 25)
 
-    print('\nGiven:')
+    print("\nGiven:")
     print_board(INPUT_BOARD)
 
     # Solve the Sudoku board
+    start_time = time.time()
     solution = Solver().sudoku_solver(INPUT_BOARD)
+    print(f"\nTime taken in milliseconds: {(time.time() - start_time) * 1000 :.2f}")
 
     if solution != INPUT_BOARD:
-        print('\nSolution:')
+        print("\nSolution:")
         print_board(solution)
     else:
-        print('\nNot a valid Sudoku board.')
+        print("\nNot a valid Sudoku board.")
