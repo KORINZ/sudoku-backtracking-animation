@@ -1,4 +1,3 @@
-import sys
 import keras
 
 # Use MNIST handwriting dataset
@@ -15,8 +14,8 @@ x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2], 1)
 # Create a convolutional neural network
 model = keras.models.Sequential(
     [
-        # Convolutional layer. Learn 32 filters using a 3x3 kernel
-        keras.layers.Conv2D(32, (3, 3), activation="relu", input_shape=(28, 28, 1)),
+        # Convolutional layer. Learn 64 filters using a 3x3 kernel
+        keras.layers.Conv2D(64, (3, 3), activation="relu", input_shape=(28, 28, 1)),
         # Max-pooling layer, using 2x2 pool size
         keras.layers.MaxPooling2D(pool_size=(2, 2)),
         # Flatten units
@@ -37,7 +36,4 @@ model.fit(x_train, y_train, epochs=10)
 model.evaluate(x_test, y_test, verbose="2")
 
 # Save model to file
-if len(sys.argv) == 2:
-    filename = sys.argv[1]
-    model.save(filename)
-    print(f"Model saved to {filename}.")
+model.save(r"handwriting_keras/model.keras")
