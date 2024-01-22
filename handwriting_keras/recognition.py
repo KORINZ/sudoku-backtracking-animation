@@ -4,12 +4,13 @@ import sys
 import keras
 
 # Check command-line arguments
-if len(sys.argv) != 2:
-    sys.exit("Usage: python recognition.py model")
-model = keras.models.load_model(sys.argv[1])
-
-if not model:
-    sys.exit("Could not load model. Check that filename is correct.")
+model_path = r"handwriting_keras/model.keras"
+try:
+    model = keras.models.load_model(model_path)
+    if model is None:
+        raise ValueError("Model loaded is None.")
+except Exception as e:
+    sys.exit(f"Error loading model from {model_path}: {e}")
 
 # Colors
 BLACK = (0, 0, 0)
@@ -17,24 +18,24 @@ WHITE = (255, 255, 255)
 
 # Start pygame
 pygame.init()
+pygame.display.set_caption("Handwriting Recognition")
 size = width, height = 600, 400
 screen = pygame.display.set_mode(size)
 
 # Fonts
-OPEN_SANS = "assets/fonts/OpenSans-Regular.ttf"
+OPEN_SANS = r"handwriting_keras/assets/fonts/OpenSans-Regular.ttf"
 smallFont = pygame.font.Font(OPEN_SANS, 20)
-largeFont = pygame.font.Font(OPEN_SANS, 40)
+largeFont = pygame.font.Font(OPEN_SANS, 80)
 
 ROWS, COLS = 28, 28
 
 OFFSET = 20
 CELL_SIZE = 10
 
-handwriting = [[0.] * COLS for _ in range(ROWS)]
+handwriting = [[0.0] * COLS for _ in range(ROWS)]
 classification = None
 
 while True:
-
     # Check if game quit
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -55,9 +56,7 @@ while True:
         row = []
         for j in range(COLS):
             rect = pygame.Rect(
-                OFFSET + j * CELL_SIZE,
-                OFFSET + i * CELL_SIZE,
-                CELL_SIZE, CELL_SIZE
+                OFFSET + j * CELL_SIZE, OFFSET + i * CELL_SIZE, CELL_SIZE, CELL_SIZE
             )
 
             # If cell has been written on, darken cell
@@ -81,10 +80,7 @@ while True:
                     handwriting[i + 1][j + 1] = 190 / 255
 
     # Reset button
-    resetButton = pygame.Rect(
-        30, OFFSET + ROWS * CELL_SIZE + 30,
-        100, 30
-    )
+    resetButton = pygame.Rect(30, OFFSET + ROWS * CELL_SIZE + 30, 100, 30)
     resetText = smallFont.render("Reset", True, BLACK)
     resetTextRect = resetText.get_rect()
     resetTextRect.center = resetButton.center
@@ -92,10 +88,7 @@ while True:
     screen.blit(resetText, resetTextRect)
 
     # Classify button
-    classifyButton = pygame.Rect(
-        150, OFFSET + ROWS * CELL_SIZE + 30,
-        100, 30
-    )
+    classifyButton = pygame.Rect(150, OFFSET + ROWS * CELL_SIZE + 30, 100, 30)
     classifyText = smallFont.render("Classify", True, BLACK)
     classifyTextRect = classifyText.get_rect()
     classifyTextRect.center = classifyButton.center
@@ -104,12 +97,12 @@ while True:
 
     # Reset drawing
     if mouse and resetButton.collidepoint(mouse):
-        handwriting = [[0.] * COLS for _ in range(ROWS)]
+        handwriting = [[0.0] * COLS for _ in range(ROWS)]
         classification = None
 
     # Generate classification
     if mouse and classifyButton.collidepoint(mouse):
-        classification = model.predict(
+        classification = model.predict(  # type: ignore
             [np.array(handwriting).reshape(1, 28, 28, 1)]
         ).argmax()
 
@@ -118,10 +111,7 @@ while True:
         classificationText = largeFont.render(str(classification), True, WHITE)
         classificationRect = classificationText.get_rect()
         grid_size = OFFSET * 2 + CELL_SIZE * COLS
-        classificationRect.center = (
-            grid_size + ((width - grid_size) / 2),
-            100
-        )
+        classificationRect.center = (grid_size + ((width - grid_size) / 2), 100)
         screen.blit(classificationText, classificationRect)
 
     pygame.display.flip()
