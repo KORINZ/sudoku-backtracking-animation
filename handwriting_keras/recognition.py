@@ -25,7 +25,7 @@ screen = pygame.display.set_mode(size)
 # Fonts
 OPEN_SANS = r"handwriting_keras/assets/fonts/OpenSans-Regular.ttf"
 smallFont = pygame.font.Font(OPEN_SANS, 20)
-largeFont = pygame.font.Font(OPEN_SANS, 80)
+largeFont = pygame.font.Font(OPEN_SANS, 200)
 
 ROWS, COLS = 28, 28
 
@@ -111,7 +111,7 @@ while True:
         classificationText = largeFont.render(str(classification), True, WHITE)
         classificationRect = classificationText.get_rect()
         grid_size = OFFSET * 2 + CELL_SIZE * COLS
-        classificationRect.center = (grid_size + ((width - grid_size) / 2), 100)
+        classificationRect.center = (grid_size + ((width - grid_size) / 2), 180)
         screen.blit(classificationText, classificationRect)
 
     pygame.display.flip()
